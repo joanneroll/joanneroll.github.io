@@ -27,3 +27,11 @@ header p {
     /* a: link - Text, der ein Link ist / a:visited - Links, die man schon besucht hat */
     color: white;
 }
+
+header nav img {
+    border-radius: 50%; /*Ecken abrunden*/
+}
+
+a:link, a:visited {
+    color: black;
+}
