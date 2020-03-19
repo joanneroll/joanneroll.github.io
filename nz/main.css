@@ -81,3 +81,11 @@ footer {
     padding: 1em 0 3em 0;
     /* padding 4 Werte --> oben rechts unten links */
 }
+
+footer .back {
+    float: left;
+}
+
+footer .next {
+    float: right;
+}
