@@ -13,7 +13,13 @@ header p {
     font-size: 0.8em; /*relative veränderung - 80% Größe*/
     font-weight: bold;
     text-align: right;
-    padding-right: 1em; /*mit gewissem Einzug */
+    padding-right: 1em; /*mit gewissem Einzug von der rechten Seite */
     margin-top: -2em; /*um zwei Einheiten nach oben schieben*/
      
 }
+
+.white, .white a:link, .white a:visited {
+    /* a: link - Text, der ein Link ist / a:visited - Links, die man schon besucht hat */
+    color: white;
+} 
+
