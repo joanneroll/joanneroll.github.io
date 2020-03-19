@@ -2,7 +2,7 @@ body {
     /*ein Kommentar*/
     max-width: 1280px;
     margin: auto;
-    font-family: Arial;
+    font-family: 'Open Sans', sans-serif;;
 }
 
 header {
@@ -51,6 +51,7 @@ main {
 
 main p {
     text-align: justify;
+    font-family: 'Liu Jian Mao Cao', cursive;
 }
 
 main figure {
