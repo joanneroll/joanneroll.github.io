@@ -51,3 +51,14 @@ main {
 main p {
     text-align: justify;
 }
+
+main figure {
+    margin-left: 0;
+    width: 100%;
+}
+
+main figure img {
+    width: 100%;
+    border: 1px solid black; 
+    /* border: Rahmen - wie breit, welche Linienart, welche Farbe */
+}
