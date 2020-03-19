@@ -29,9 +29,16 @@ header p {
 }
 
 header nav img {
-    border-radius: 50%; /*Ecken abrunden*/
+    border-radius: 50%;
+    /*Ecken abrunden*/
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
     color: black;
+}
+
+header nav address {
+    font-size: 0.9em;
+    font-style: italic;
 }
