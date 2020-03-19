@@ -68,3 +68,9 @@ main figure img {
     height: 360px;
     border: 1px solid gray;
 }
+
+main ul {
+    list-style-type: circle;
+    /* list style type - Zeichen */
+    
+}
