@@ -49,14 +49,14 @@ user.highscore = 200;
 console.log(user);
 
 // spezielle Syntax für Variblennamen mit Leerzeichen
-user["highscore ever"] = 400; 
+user["highscore ever"] = 400;
 console.log(user);
 
 
 let a = 2;
 let b = 4;
-console.log(a+b);
-console.log(b/(a-1));
+console.log(a + b);
+console.log(b / (a - 1));
 a++; //+1
 console.log(a);
 
@@ -74,7 +74,7 @@ console.log(a);
 // Schleifen: for Schleife
 // i startet bei 0, endet bei 10, in jeder Schleife um +1
 
-for (let i=0; i<10; i++) {
+for (let i = 0; i < 10; i++) {
     console.log(`Schleife ${i}`);
 }
 
@@ -89,7 +89,7 @@ participants.forEach(participant => {
 
 // Funktionen
 
-function showAge (birthYear) {
+function showAge(birthYear) {
     console.log(`Du bist ca. ${2020-birthYear} Jahre alt.`);
 }
 
@@ -103,9 +103,32 @@ function calcAge(birthYear) {
 console.log(`Max ist ${calcAge(1977)} Jahre alt (ca.)`);
 console.log(`John ist ${calcAge(1988)} Jahre alt (ca.)`);
 
-let birthYears = [ 1965, 1977, 1980, 2001, 2004];
+let birthYears = [1965, 1977, 1980, 2001, 2004];
 console.log(birthYears);
 
 birthYears.forEach(year => {
     console.log(`Geboren ${year}, heute ca. ${calcAge(year)} Jahre alt.`);
+});
+
+let users = [{
+        firstname: "John",
+        lastname: "Smith",
+        birthYear: 1960
+    },
+    {
+        firstname: "Jane",
+        lastname: "Doe",
+        birthYear: 1969
+    },
+    {
+        firstname: "Max",
+        lastname: "Mustermann",
+        birthYear: 1990
+    },
+];
+
+console.log(users);
+
+users.forEach(user => {
+    console.log(`${user.firstname} ist oder wird heuer ${calcAge(user.birthYear)} Jahre alt.`);
 });
