@@ -53,3 +53,9 @@ user["highscore ever"] = 400;
 console.log(user);
 
 
+let a = 2;
+let b = 4;
+console.log(a+b);
+console.log(b/(a-1));
+a++; //+1
+console.log(a);
