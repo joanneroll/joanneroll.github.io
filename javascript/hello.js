@@ -138,3 +138,14 @@ let firstParagraph = document.querySelector("#pFirst");
 console.log(firstParagraph);
 // firstParagraph.remove(); //entfernt den ersten Absatz
 firstParagraph.innerHTML = "Test"; //Umschreiben der HTML datei
+firstParagraph.style.color = "red";
+
+// let indentedParas = document.querySelector(".indent"); //er geht auf das erste Element, das er erwisch
+let indentedParas = document.querySelectorAll(".indent"); //er geht auf das erste Element, das er erwisch
+console.log(indentedParas);
+
+indentedParas.innerHTML = "Test2"; //hier passiert nur nichts
+indentedParas.forEach((para, index) => {
+    para.innerHTML = `Absatz ${index}`;
+    para.style.color = "blue";
+});
