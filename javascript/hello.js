@@ -20,3 +20,9 @@ console.log(fullname);
 
 let template = `Dein Highscore sind ${highscore} Punkte`;
 console.log(template)
+
+let isOver18 = true;
+console.log(isOver18);
+
+let age = 17;
+console.log("über 18?:", age > 18)
