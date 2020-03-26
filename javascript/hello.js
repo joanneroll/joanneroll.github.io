@@ -146,6 +146,12 @@ console.log(indentedParas);
 
 indentedParas.innerHTML = "Test2"; //hier passiert nur nichts
 indentedParas.forEach((para, index) => {
+    console.log(`Data attribut LAT ${para.dataset.lat}`); //Data attribut ansprechen
     para.innerHTML = `Absatz ${index}`;
     para.style.color = "blue";
+    if (index % 2 == 0) { //wenn der ganzteilige rest von Division durch 2 0 ist, soll der Absatz rot gefärbt werden 
+        para.style.color = "red";
+    } else {
+        para.style.color = "green";
+    }
 });
