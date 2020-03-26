@@ -70,3 +70,12 @@ console.log(a);
 // } else {
 //     console.log("Leider unter 18.")
 // }
+
+// Schleifen: for Schleife
+// i startet bei 0, endet bei 10, in jeder Schleife um +1
+
+for (let i=0; i<10; i++) {
+    console.log(`Schleife ${i}`);
+}
+
+
