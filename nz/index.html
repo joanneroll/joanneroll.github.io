@@ -5,10 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuseelandreise - Milford Sound</title>
+
+    <!--Symbols & Fonts-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <!--CSS und Java Scripts-->
+    <script defer src="main.js"></script>
     <link rel="stylesheet" href="main.css">
-    <script src="main.js"></script>
+
+    <!--Leaflet-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
         crossorigin="" />
@@ -69,6 +75,21 @@
 
         <h3>Übersichtskarte</h3>
         <div id="map" data-lat="-44.616667" data-lng="167.866667" data-title="Bowen Falls"></div>
+        <script>
+            var mymap = L.map('map').setView([51.505, -0.09], 13);
+
+            L.tileLayer(
+                'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                    maxZoom: 18,
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1
+                }).addTo(mymap);
+                
+        </script>
 
         <h3>Weiterführende Links</h3>
         <ul>
