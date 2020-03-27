@@ -18,12 +18,6 @@ let OpenTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
         maxZoom: 17,
         attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>tributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https:/ntopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
     }),
-    NZareal = L.tileLayer('http://tiles-a.data-cdn.linz.govt.nz/services;key=4bd8f17980d14deb9f679ecbc9cfc8aa/tiles/v4/set=4702/EPSG:3857/{z}/{x}/{y}.png', {
-        maxZoom: 17
-    }),
-    NZtopo = L.tileLayer('http://tiles-a.data-cdn.linz.govt.nz/services;key=4bd8f17980d14deb9f679ecbc9cfc8aa/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
-        maxZoom: 17
-    }),
     OpenStreets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -32,6 +26,12 @@ let OpenTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1
+    }),
+    NZareal = L.tileLayer('http://tiles-a.data-cdn.linz.govt.nz/services;key=4bd8f17980d14deb9f679ecbc9cfc8aa/tiles/v4/set=4702/EPSG:3857/{z}/{x}/{y}.png', {
+        maxZoom: 17
+    }),
+    NZtopo = L.tileLayer('http://tiles-a.data-cdn.linz.govt.nz/services;key=4bd8f17980d14deb9f679ecbc9cfc8aa/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
+        maxZoom: 17
     });
 
 // Definieren der Karte mit OpenTopo als default Baselayer
