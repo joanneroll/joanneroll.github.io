@@ -11,13 +11,12 @@ let mymap = L.map(Map).setView([lat, lng], 13);
 
 // Topographische Karte
 L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    maxZoom: 11, //Anpassen des MaxZooms an Platzierung Marker
+    maxZoom: 17,
     attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>tributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https:/ntopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
 }).addTo(mymap);
 
 // Marker
-// Bowen Falls: lat -44.6652185, lng 167.9209507
-let marker = L.marker([-44.6652185, 167.9209507]).addTo(mymap);
+let marker = L.marker([lat, lng]).addTo(mymap);
 marker.bindPopup(markerTitle);
 //marker.bindPopup("Bowen Falls").openPopup();
 
