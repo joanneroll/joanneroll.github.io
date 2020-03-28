@@ -48,7 +48,7 @@ let mymap = L.map(Map, {
     layers: OpenTopo
 })
 // BaseLayer Objekt
-var baseMaps = {
+let baseMaps = {
     "OpenTopomap": OpenTopo,
     "OpenStreets": OpenStreets,
     "NZ Aerial Imagery": NZaerial,
@@ -63,5 +63,5 @@ marker.bindPopup(markerTitle).openPopup();
 // marker.bindPopup(markerTitle);
 
 // Zome Home Plugin
-var zoomHome = L.Control.zoomHome();
+let zoomHome = L.Control.zoomHome();
 zoomHome.addTo(mymap);
