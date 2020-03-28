@@ -44,6 +44,7 @@ let OpenTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 let mymap = L.map(Map, {
     center: [lat, lng],
     zoom: 13,
+    zoomControl: false, // Deaktivieren des Standardzooms
     layers: OpenTopo
 })
 // BaseLayer Objekt
@@ -60,3 +61,7 @@ L.control.layers(baseMaps).addTo(mymap);
 let marker = L.marker([lat, lng]).addTo(mymap);
 marker.bindPopup(markerTitle).openPopup();
 // marker.bindPopup(markerTitle);
+
+// Zome Home Plugin
+var zoomHome = L.Control.zoomHome();
+zoomHome.addTo(mymap);
