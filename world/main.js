@@ -8,7 +8,7 @@ let map = L.map("map", {
     ]
 });
 
-let circleGroup = L.featureGroup().addTop(map);
+let circleGroup = L.featureGroup().addTo(map);
 
 L.control.layers({
     "Esri.WorldStreetMap": L.tileLayer.provider("Esri.WorldStreetMap"),
@@ -46,5 +46,5 @@ let drawCircles = function (data) {
 };
 
 drawCircles(CONFIRMED);
-drawCircles(DEATHS);
 drawCircles(RECOVERED);
+drawCircles(DEATHS);
