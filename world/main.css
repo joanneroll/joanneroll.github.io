@@ -1,5 +1,6 @@
 body {
-    overflow:hidden; //Scrollbars vermeiden
+    /* overflow:hidden; //Scrollbars vermeiden */
+    margin: 0
 }
 
 #map {

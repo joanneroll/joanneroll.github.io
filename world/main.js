@@ -1,5 +1,5 @@
 
-let startLayer = L.tileLayer.provider("OpenTopoMap");
+let startLayer = L.tileLayer.provider("Esri.WorldStreetMap");
 
 let map = L.map("map", {
     center: [0,0],
@@ -10,8 +10,46 @@ let map = L.map("map", {
 });
 
 L.control.layers({
-    "OpenTopoMap" : startLayer,
-    "OpenStreetMap.Mapnik" : L.tileLayer.provider("OpenStreetMap.Mapnik"),
-
+    "Esri.WorldStreetMap": L.tileLayer.provider("Esri.WorldStreetMap"),
+    "OpenTopoMap" : L.tileLayer.provider("OpenTopoMap"),
+    "OpenStreetMap-Mapnik" : L.tileLayer.provider("OpenStreetMap.Mapnik"),
+    // "Thunderforest-SpinalMap": L.tileLayer.provider("Thunderforest.SpinalMap"),
+    // "Stadia.AlidadeSmoothDark": L.tileLayer.provider("Stadia.AlidadeSmoothDark"),
+    // "Thunderforest-Landscape": L.tileLayer.provider("Thunderforest.Landscape"),
+    "Stamen.TonerLite": L.tileLayer.provider("Stamen.TonerLite"),
 
 }).addTo(map)
+
+console.log(CONFIRMED);
+// loopen durch alle Elemende
+// i fängt bei 1 ein, um den header mit buchstaben - statt zeilen - zu überspringed
+// for (let i = 1; i < CONFIRMED.length; i++) {
+//     let row = CONFIRMED[i];
+//     // console.log(row[2],row[3]);
+//     let reg = `${row[0]} ${row[1]}`
+//     let lat = row[2];
+//     let lng = row[3];
+//     let val = row[low.length-1]; //letzter Wert in der Zeile
+
+    
+//     let mrk = L.marker([lat, lng]).addTo(map);
+//     mrk.bindPopup(`${reg} ${val}`).addTo(map);
+
+//     let circle = L.circleMarker(|)
+// }
+
+for (let i = 1; i < CONFIRMED.length; i++) {
+    let row = CONFIRMED[i];
+    //console.log(row[2],row[3]);
+    let val = row[row.length-1];
+    let mrk = L.marker([row[2],row[3]]).addTo(map);
+    // mrk.bindPopup(`${row[0]} ${row[1]}: ${val}`);
+
+    let r = Math.sqrt(val*s/Math.PI);
+    let s = 0.5
+    let circle = L.circleMarker([row[2],row[3],{
+        radius: r
+    }).addTo(map);
+    circle.bindPopup(`${row[0]} ${row[1]}`);
+
+}
