@@ -30,15 +30,17 @@ let OpenTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
     NZaerial = L.tileLayer('http://tiles-a.data-cdn.linz.govt.nz/services;key=4bd8f17980d14deb9f679ecbc9cfc8aa/tiles/v4/set=4702/EPSG:3857/{z}/{x}/{y}.png', {
         maxZoom: 17,
         attribution: 'Map data &copy; Land Information New Zealand Data Service <a href="https://www.linz.govt.nz/data/linz-data-service">(LINZ)</a> | ' +
-        'Imagery &copy; <a href="https://data.linz.govt.nz/set/4702-nz-aerial-imagery/">NZ Aerial Imagery</a>'
-    });
-    NZtopo = L.tileLayer('http://tiles-a.data-cdn.linz.govt.nz/services;key=4bd8f17980d14deb9f679ecbc9cfc8aa/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
-        maxZoom: 17,
-        attribution: 'Map data &copy; Land Information New Zealand Data Service <a href="https://www.linz.govt.nz/data/linz-data-service">(LINZ)</a> | ' +
-        'Imagery &copy; <a href="https://data.linz.govt.nz/layer/50767-nz-topo50-maps/">NZ Topo50 Maps</a>'
+            'Imagery &copy; <a href="https://data.linz.govt.nz/set/4702-nz-aerial-imagery/">NZ Aerial Imagery</a>'
     });
 
-    
+NZtopo = L.tileLayer('http://tiles-a.data-cdn.linz.govt.nz/services;key=4bd8f17980d14deb9f679ecbc9cfc8aa/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
+    maxZoom: 17,
+    attribution: 'Map data &copy; Land Information New Zealand Data Service <a href="https://www.linz.govt.nz/data/linz-data-service">(LINZ)</a> | ' +
+        'Imagery &copy; <a href="https://data.linz.govt.nz/layer/50767-nz-topo50-maps/">NZ Topo50 Maps</a>'
+});
+
+//L.tileLayer.provider("OpenTopoMap") noch adden
+
 
 // Definieren der Karte mit OpenTopo als default Baselayer
 let mymap = L.map(Map, {
