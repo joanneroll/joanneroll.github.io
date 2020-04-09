@@ -24,8 +24,11 @@ L.control.layers({
 let drawCircles = function () {
     let data = CONFIRMED;
     let header = CONFIRMED[0];
-    let index = header.length -1; //wir wollen den letzten Dateneintrag erwischen
+    let index = header.length -1; //letzter Dateneintrag erwischen
 
+    // Datum anzeigen
+    document.querySelector("#datum").innerHTML = `am ${header[index]}`
+    
     //console.log(data);
     for (let i = 1; i < data.length; i++) {
         let row = data[i];
