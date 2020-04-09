@@ -53,6 +53,10 @@ let drawCircles = function () {
     }
 };
 
+document.querySelector("#pulldown").onchange = function (){ // Funktion wird ausgeführt, sobald Pulldown verändert
+    drawCircles();
+}
+
 drawCircles(); // CONFIRMED wird oben direkt der Funktion übergeben
 // drawCircles(RECOVERED);
 // drawCircles(DEATHS);
