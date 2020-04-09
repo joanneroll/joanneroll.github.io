@@ -25,7 +25,7 @@ let drawCircles = function () {
     let data = CONFIRMED;
     let header = CONFIRMED[0];
     // let index = header.length -1; //letzter Dateneintrag erwischen
-    let index = document.querySelector("#slider").value;
+    let index = document.querySelector("#slider").value; //Wert/Position des Sliders = Index in Data
     let options = document.querySelector("#pulldown").options;
     let value = options[options.selectedIndex].value; //greift auf aktuell eingesellte Auswahl zu
     let label = options[options.selectedIndex].text; //greift auf entsprechende Beschreibung zu 
@@ -80,6 +80,10 @@ let slider = document.querySelector("#slider");
 slider.min = 4;
 slider.max = CONFIRMED[0].length -1;
 slider.step = 1;
-slider.value = 7; 
+slider.value = slider.max; 
+
+slider.onchange = function () {
+    drawCircles();
+}
 
 drawCircles(); 
