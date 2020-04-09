@@ -25,10 +25,13 @@ let drawCircles = function () {
     let data = CONFIRMED;
     let header = CONFIRMED[0];
     let index = header.length -1; //letzter Dateneintrag erwischen
-    let topic = "bestätigte Fälle";
+    let options = document.querySelector("#pulldown").options;
+    let value = options[options.selectedIndex].value; //greift auf aktuell eingesellte Auswahl zu
+    let label = options[options.selectedIndex].text; //greift auf entsprechende Beschreibung zu 
+    console.log(value, label);
 
     // Datum & Thema anzeigen
-    document.querySelector("#datum").innerHTML = `am ${header[index]} - ${topic}`
+    document.querySelector("#datum").innerHTML = `am ${header[index]} - ${label}`
     
     //console.log(data);
     for (let i = 1; i < data.length; i++) {
