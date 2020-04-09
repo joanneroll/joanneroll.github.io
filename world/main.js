@@ -21,7 +21,8 @@ L.control.layers({
 
 }).addTo(map);
 
-let drawCircles = function (data) {
+let drawCircles = function () {
+    let data = CONFIRMED;
     //console.log(data);
     for (let i = 1; i < data.length; i++) {
         let row = data[i];
@@ -45,6 +46,6 @@ let drawCircles = function (data) {
     }
 };
 
-drawCircles(CONFIRMED);
-drawCircles(RECOVERED);
-drawCircles(DEATHS);
+drawCircles(); // CONFIRMED wird oben direkt der Funktion übergeben
+// drawCircles(RECOVERED);
+// drawCircles(DEATHS);
