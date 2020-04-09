@@ -30,9 +30,19 @@ let drawCircles = function () {
     let label = options[options.selectedIndex].text; //greift auf entsprechende Beschreibung zu 
     console.log(value, label);
 
+    if (value == "confirmed"){
+        data = CONFIRMED;
+    } else if (value =="recovered") {
+        data = RECOVERED;
+    } else {
+        data = DEATHS;
+    }
+
     // Datum & Thema anzeigen
     document.querySelector("#datum").innerHTML = `am ${header[index]} - ${label}`
     
+    circleGroup.clearLayers();
+
     //console.log(data);
     for (let i = 1; i < data.length; i++) {
         let row = data[i];
