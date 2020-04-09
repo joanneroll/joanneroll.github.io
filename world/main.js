@@ -48,6 +48,11 @@ let drawCircles = function () {
     
     circleGroup.clearLayers();
 
+    // Daten der Größe nach sortieren und dann darstellen --> großer Kreis unter kleinem Kreis
+    data.sort(function compareNumbers (row1,row2) { //vergleicht immer zwei zeilen
+        return row2[index] - row1[index]; 
+    });
+
     //console.log(data);
     for (let i = 1; i < data.length; i++) {
         let row = data[i];
@@ -59,7 +64,7 @@ let drawCircles = function () {
         //let mrk = L.marker([lat,lng]).addTo(map);
         //mrk.bindPopup(`${reg}: ${val}`);
 
-        if (val === "0"){ //Beim Wert 0 soll kein Marker gesetzt werden 
+        if (val === "0"){ //Beim Wert 0 (hier in String) soll kein Marker gesetzt werden 
             continue;
         }
         //A = r²*PI
