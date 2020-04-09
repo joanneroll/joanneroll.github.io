@@ -32,25 +32,25 @@ let drawCircles = function () {
     // let color;
     // console.log(value, label);
 
-    if (value == "confirmed"){
+    if (value == "confirmed") {
         data = CONFIRMED;
         color = "#0074D9";
-    } else if (value =="recovered") {
+    } else if (value == "recovered") {
         data = RECOVERED;
         color = "#3D9970";
     } else {
         data = DEATHS;
-        color="#85144b";
+        color = "#85144b";
     }
 
     // Datum & Thema anzeigen
     document.querySelector("#datum").innerHTML = `am ${header[index]} - ${label}`
-    
+
     circleGroup.clearLayers();
 
     // Daten der Größe nach sortieren und dann darstellen --> großer Kreis unter kleinem Kreis
-    data.sort(function compareNumbers (row1,row2) { //vergleicht immer zwei zeilen
-        return row2[index] - row1[index]; 
+    data.sort(function compareNumbers(row1, row2) { //vergleicht immer zwei zeilen
+        return row2[index] - row1[index];
     });
 
     //console.log(data);
@@ -64,7 +64,7 @@ let drawCircles = function () {
         //let mrk = L.marker([lat,lng]).addTo(map);
         //mrk.bindPopup(`${reg}: ${val}`);
 
-        if (val === "0"){ //Beim Wert 0 (hier in String) soll kein Marker gesetzt werden 
+        if (val === "0") { //Beim Wert 0 (hier in String) soll kein Marker gesetzt werden 
             continue;
         }
         //A = r²*PI
@@ -76,31 +76,31 @@ let drawCircles = function () {
             radius: r,
             color: color
         }).addTo(circleGroup);
-        
+
         circle.bindPopup(`${reg}: ${val}`);
     }
 };
 
-document.querySelector("#pulldown").onchange = function (){ // Funktion wird ausgeführt, sobald Pulldown verändert
+document.querySelector("#pulldown").onchange = function () { // Funktion wird ausgeführt, sobald Pulldown verändert
     drawCircles();
 }
 
 let slider = document.querySelector("#slider");
 slider.min = 4;
-slider.max = CONFIRMED[0].length -1;
+slider.max = CONFIRMED[0].length - 1;
 slider.step = 1;
-slider.value = slider.max; 
+slider.value = slider.max;
 
 slider.onchange = function () {
     drawCircles();
 }
 
-drawCircles(); 
+drawCircles();
 
 let playButton = document.querySelector("#play");
 let runningAnimation = null; //zahl exisiert damit nicht 
 
-playButton.onclick = function () {    
+playButton.onclick = function () {
     //Timer setzen
     let value = slider.min;
     if (slider.value == slider.max) { //nur wenn Slidermax, fängt er wieder vorne an
@@ -122,13 +122,13 @@ playButton.onclick = function () {
             slider.value = value; //Wert wird der Sliderposition übergeben
             drawCircles();
             value++;
-    
-            if (value >slider.max) { //bei einem Wert größer als max
+
+            if (value > slider.max) { //bei einem Wert größer als max
                 window.clearInterval(runningAnimation);
                 playButton.value = "▶";
                 runningAnimation = null;
-            } 
-        }, 250)
+            }
+        }, 200)
     }
 
 
