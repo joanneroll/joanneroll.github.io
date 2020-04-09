@@ -28,14 +28,18 @@ let drawCircles = function () {
     let options = document.querySelector("#pulldown").options;
     let value = options[options.selectedIndex].value; //greift auf aktuell eingesellte Auswahl zu
     let label = options[options.selectedIndex].text; //greift auf entsprechende Beschreibung zu 
-    console.log(value, label);
+    // let color;
+    // console.log(value, label);
 
     if (value == "confirmed"){
         data = CONFIRMED;
+        color = "blue";
     } else if (value =="recovered") {
         data = RECOVERED;
+        color = "green";
     } else {
         data = DEATHS;
+        color="purple";
     }
 
     // Datum & Thema anzeigen
@@ -60,7 +64,8 @@ let drawCircles = function () {
         let s = 0.5;
         let r = Math.sqrt(val * s / Math.PI);
         let circle = L.circleMarker([lat, lng], {
-            radius: r
+            radius: r,
+            color: color
         }).addTo(circleGroup);
         circle.bindPopup(`${reg}: ${val}`);
     }
