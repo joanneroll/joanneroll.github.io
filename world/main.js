@@ -33,13 +33,13 @@ let drawCircles = function () {
 
     if (value == "confirmed"){
         data = CONFIRMED;
-        color = "blue";
+        color = "#0074D9";
     } else if (value =="recovered") {
         data = RECOVERED;
-        color = "green";
+        color = "#3D9970";
     } else {
         data = DEATHS;
-        color="purple";
+        color="#85144b";
     }
 
     // Datum & Thema anzeigen
