@@ -59,6 +59,9 @@ let drawCircles = function () {
         //let mrk = L.marker([lat,lng]).addTo(map);
         //mrk.bindPopup(`${reg}: ${val}`);
 
+        if (val === "0"){ //Beim Wert 0 soll kein Marker gesetzt werden 
+            continue;
+        }
         //A = r²*PI
         //r² = A/PI
         //r = WURZEL(A/PI)
@@ -68,6 +71,7 @@ let drawCircles = function () {
             radius: r,
             color: color
         }).addTo(circleGroup);
+        
         circle.bindPopup(`${reg}: ${val}`);
     }
 };
