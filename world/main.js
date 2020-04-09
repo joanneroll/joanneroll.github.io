@@ -96,3 +96,40 @@ slider.onchange = function () {
 }
 
 drawCircles(); 
+
+let playButton = document.querySelector("#play");
+let runningAnimation = null; //zahl exisiert damit nicht 
+
+playButton.onclick = function () {    
+    //Timer setzen
+    let value = slider.min;
+    if (slider.value == slider.max) { //nur wenn Slidermax, fängt er wieder vorne an
+        value = slider.min;
+    } else {
+        value = slider.value; //der aktuelle Wert des Sliders quasi
+    }
+
+    playButton.value = "⏴";
+
+    if (runningAnimation) {
+        window.clearInterval(runningAnimation);
+        playButton.value = "▶";
+        runningAnimation = null;
+    } else {
+
+        runningAnimation = window.setInterval(function () { //Funktion wird als Variable definiert
+            // console.log(value, "nach 250 ms");
+            slider.value = value; //Wert wird der Sliderposition übergeben
+            drawCircles();
+            value++;
+    
+            if (value >slider.max) { //bei einem Wert größer als max
+                window.clearInterval(runningAnimation);
+                playButton.value = "▶";
+                runningAnimation = null;
+            } 
+        }, 250)
+    }
+
+
+}
