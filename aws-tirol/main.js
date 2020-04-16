@@ -41,9 +41,12 @@ let aws = L.geoJson.ajax(awsUrl, {
     },
     pointToLayer: function (point, latlng) {
         let marker = L.marker(latlng);
-        marker.bindPopup(`<h3>${point.properties.name}</h3></br>
-        <b>Datum:</b> ${point.properties.date}</br>
-        <b>Temperatur:</b> ${point.properties.LT} °C`); //bei nur "points" würde {object Object} kommen
+        marker.bindPopup(`<h3>${point.properties.name} ${point.geometry.coordinates[2]} m</h3></br>
+        <ul>
+        <li><b>Position:</b> Lat: ${point.geometry.coordinates[0]}/Lng: ${point.geometry.coordinates[1]}</li>
+        <li><b>Datum:</b> ${point.properties.date}</li>
+        <li><b>Temperatur:</b> ${point.properties.LT} °C</li>
+        </ul>`); //bei nur "points" würde {object Object} kommen
         return marker;
     }
 }).addTo(awsLayer);
