@@ -21,3 +21,15 @@ L.control.layers({
         L.tileLayer.provider("BasemapAT.overlay")
     ])
 }).addTo(map);
+
+
+let walk = L.geoJson(SPAZIERGANG, { //Punkte werden automatisch als Marker gesetzt
+    pointToLayer: function (point, latlng) { //beeinflussen, welcher Marker entstehen soll
+        let marker = L.marker(latlng);
+        console.log("Point", point);
+        marker.bindPopup(`<h3>${point.properties.NAME}</h3>
+        <p><a target="links" href="${point.properties.WEITERE_INF}">Link</a></p>`); //bei nur "points" würde {object Object} kommen
+        return marker;
+        // return L.circleMarker(latlng, {color: "red", radius: 5})
+    }
+}).addTo(map);
