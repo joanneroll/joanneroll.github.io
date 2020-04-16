@@ -1,4 +1,4 @@
-{
+const SPAZIERGANG = {
     "type": "FeatureCollection",
     "totalFeatures": 126,
     "features": [{
@@ -2150,4 +2150,4 @@
             "name": "urn:ogc:def:crs:EPSG::4326"
         }
     }
-}
+};
