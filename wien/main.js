@@ -8,6 +8,8 @@ let map = L.map("map", {
     ]
 });
 
+let walkGroup = L.featureGroup().addTo(map);
+
 L.control.layers({
     "BasemapAT.grau": startLayer,
     "BasemapAT": L.tileLayer.provider("BasemapAT"),
@@ -20,6 +22,8 @@ L.control.layers({
         L.tileLayer.provider("BasemapAT.orthofoto"),
         L.tileLayer.provider("BasemapAT.overlay")
     ])
+}, {
+    "Stadtspaziergang (Punkte)": walkGroup
 }).addTo(map);
 
 let walkUrl = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPAZIERPUNKTOGD%20&srsName=EPSG:4326&outputFormat=json";
@@ -29,7 +33,7 @@ let walk = L.geoJson.ajax(walkUrl, { //Punkte werden automatisch als Marker gese
     pointToLayer: function (point, latlng) { //beeinflussen, welcher Marker entstehen soll
         let icon = L.icon({
             iconUrl: 'icons/sight.svg',
-            iconSize: [32,32]
+            iconSize: [32, 32]
         })
         let marker = L.marker(latlng, {
             icon: icon
@@ -40,4 +44,9 @@ let walk = L.geoJson.ajax(walkUrl, { //Punkte werden automatisch als Marker gese
         return marker;
         // return L.circleMarker(latlng, {color: "red", radius: 5})
     }
-}).addTo(map);
+}).addTo(walkGroup); //Marker nicht direkt auf der Karte, sondern in walkGroup Layer
+
+walk.on("data:loaded", function() { //wenn das Event walk geladen wurde (asynchron und so), dann führe etwas aus
+    console.log("data loaded");
+    map.fitBounds(walkGroup.getBounds()); //Kartengrenzen an walkGroup Gruppe ausrichten
+})
