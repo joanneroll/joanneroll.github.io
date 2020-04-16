@@ -29,6 +29,16 @@ L.control.layers({
 let awsUrl = "https://aws.openweb.cc/stations";
 
 let aws = L.geoJson.ajax(awsUrl, {
+    filter: function (feature) {
+        console.log("Feature in filer: ", feature);
+        // if (feature.properties.LT < 5) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+        // return feature.properties.LT <5;
+        return feature.geometry.coordinates[2] > 3000;
+    },
     pointToLayer: function (point, latlng) {
         let marker = L.marker(latlng);
         marker.bindPopup(`<h3>${point.properties.name}</h3></br>
