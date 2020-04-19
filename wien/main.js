@@ -73,11 +73,29 @@ sights.on("data:loaded", function () { //wenn das Event walk geladen wurde (asyn
 let wandern = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WANDERWEGEOGD&srsName=EPSG:4326&outputFormat=json";
 
 L.geoJson.ajax(wandern, {
-    style: function () {
-        return {
-            color: "green",
-            weight: 5
+    style: function (feature) {
+        //Linienstil nach Stadtwanderweg (Typ 1/schwarz strichliert) oder Rundumadum (Typ 2/schwarz punktiert)
+        if (feature.properties.TYP == "1") {
+            // console.log("=Kernzone")
+            return {
+                color: "#111111", //schwarz
+                dashArray: "5,6", //strichliert
+                fillOpacity: 0.3
+            };
+        } else if (feature.properties.TYP == "2") {
+            // console.log("=Pufferzone")
+            return {
+                color: "#111111", //schwarz
+                dashArray: "1,10", //gepunktet
+                fillOpacity: 0.3
+            };
+
         }
+
+    }, 
+    onEachFeature: function (feature, layer) {
+        console.log("Wanderweg Feature", feature);
+        layer.bindPopup(`${feature.properties.BEZ_TEXT}`)
     }
 }).addTo(map);
 
@@ -86,6 +104,7 @@ let heritage = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature
 
 L.geoJson.ajax(heritage, {
     style: function (feature) {
+        //Einfärben nach Kern- oder Pufferzone
         if (feature.properties.TYP == "1") {
             // console.log("=Kernzone")
             return {
@@ -103,10 +122,10 @@ L.geoJson.ajax(heritage, {
 
     },
     onEachFeature: function (feature, layer) {
-        console.log("Feature: ", feature);
-        console.log("Layer", layer);
+        // console.log("Feature: ", feature);
+        // console.log("Layer", layer);
         if (feature.properties.TYP == "1") { //Kernzone (rot) soll über Pufferzone (gelb) dargestellt werden
-            console.log("layer vor!")
+            // console.log("layer vor!")
             layer.bringToFront(); //funktioniert aber aus Gründen noch nicht 
         };
 
