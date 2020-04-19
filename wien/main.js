@@ -85,14 +85,31 @@ L.geoJson.ajax(wandern, {
 let heritage = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WELTKULTERBEOGD&srsName=EPSG:4326&outputFormat=json";
 
 L.geoJson.ajax(heritage, {
-    style: function () {
-        return {
-            color: "salmon",
-            fillOpacity: 0.3
-        };
+    style: function (feature) {
+        if (feature.properties.TYP == "1") {
+            // console.log("=Kernzone")
+            return {
+                color: "#FF4136", //rot
+                fillOpacity: 0.3
+            };
+        } else if (feature.properties.TYP == "2") {
+            // console.log("=Pufferzone")
+            return {
+                color: "#FFDC00", //gelb
+                fillOpacity: 0.3
+            };
+
+        }
+
     },
     onEachFeature: function (feature, layer) {
-        // console.log("Feature: ", feature);
+        console.log("Feature: ", feature);
+        console.log("Layer", layer);
+        if (feature.properties.TYP == "1") { //Kernzone (rot) soll über Pufferzone (gelb) dargestellt werden
+            console.log("layer vor!")
+            layer.bringToFront(); //funktioniert aber aus Gründen noch nicht 
+        };
+
         layer.bindPopup(`<h3>${feature.properties.NAME}</h3>
         <p>${feature.properties.INFO}</p>`)
     }
