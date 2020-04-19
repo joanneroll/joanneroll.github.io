@@ -11,7 +11,7 @@ let map = L.map("map", {
 //Feature Groups
 // let sightGroup = L.featureGroup().addTo(map);
 let sightGroup = L.markerClusterGroup().addTo(map); //Stadtspaziergang
-let singleSightsGroup = L.featureGroup().addTo(map); //Sehenswürdigkeiten
+// let singleSightsGroup = L.featureGroup().addTo(map); //Sehenswürdigkeiten
 
 
 L.control.layers({
@@ -28,7 +28,7 @@ L.control.layers({
     ])
 }, {
     "Stadtspaziergang (Punkte)": sightGroup,
-    "Sehenswürdigkeiten (Punkte)": singleSightsGroup
+    // "Sehenswürdigkeiten (Punkte)": singleSightsGroup
 }).addTo(map);
 
 
@@ -52,7 +52,7 @@ let sights = L.geoJson.ajax(walkUrl, { //Punkte werden automatisch als Marker ge
     }
 }); //.addTo(sightGroup); //Marker nicht direkt auf der Karte, sondern in walkGroup Layer
 
-sights.on("data:loaded", function() { //wenn das Event walk geladen wurde (asynchron und so), dann führe etwas aus
+sights.on("data:loaded", function () { //wenn das Event walk geladen wurde (asynchron und so), dann führe etwas aus
     sightGroup.addLayer(sights); //gruppierte Sights nach laden der Daten hinzufügen
     console.log("data loaded");
     map.fitBounds(sightGroup.getBounds()); //Kartengrenzen an walkGroup Gruppe ausrichten
@@ -63,7 +63,10 @@ let wandern = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&
 
 L.geoJson.ajax(wandern, {
     style: function () {
-        return { color: "green", weight: 5}
+        return {
+            color: "green",
+            weight: 5
+        }
     }
 }).addTo(map);
 
@@ -71,9 +74,12 @@ L.geoJson.ajax(wandern, {
 let heritage = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WELTKULTERBEOGD&srsName=EPSG:4326&outputFormat=json";
 
 L.geoJson.ajax(heritage, {
-    style: function() {
-        return { color: "salmon", fillOpacity: 0.3};
-    }, 
+    style: function () {
+        return {
+            color: "salmon",
+            fillOpacity: 0.3
+        };
+    },
     onEachFeature: function (feature, layer) {
         // console.log("Feature: ", feature);
         layer.bindPopup(`<h3>${feature.properties.NAME}</h3>
@@ -82,17 +88,21 @@ L.geoJson.ajax(heritage, {
 }).addTo(map);
 
 
-//Sehenswürdigkeiten 
-let singleSights_URL = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json";
+// //Sehenswürdigkeiten 
+// let singleSights_URL = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json";
 
-let singleSights = L.geoJson.ajax(singleSights_URL, {
-    pointToLayer: function (point, latlng) {
-        console.log("Punkte Sehenswürdigkeiten: ", point);
-        let marker = L.marker(latlng);
-        return marker;
-    }
-})
+// let singleSights = L.geoJson.ajax(singleSights_URL, {
+//     pointToLayer: function (point, latlng) {
+//         console.log("Punkte Sehenswürdigkeiten: ", point);
+//         let marker = L.marker(latlng);
+//         marker.bindPopup(`<p><h3>${point.properties.NAME}</h3></p>
+//                     <img src="${point.properties.THUMBNAIL}" align="left" style="margin-right:10px"/>
+//                     <b>Adresse:</b> ${point.properties.ADRESSE}</br>
+//                     <a target="links" href="${point.properties.WEITERE_INF}">>> Link</a>`)
+//         return marker;
+//     }
+// })
 
-singleSights.on("data:loaded", function (){
-    singleSightsGroup.addLayer(singleSights);
-})
+// singleSights.on("data:loaded", function () {
+//     singleSightsGroup.addLayer(singleSights);
+// })
