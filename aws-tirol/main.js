@@ -31,13 +31,15 @@ let awsUrl = "https://aws.openweb.cc/stations";
 let aws = L.geoJson.ajax(awsUrl, {
     filter: function (feature) {
         console.log("Feature in filer: ", feature);
+        // console.log(feature.properties.LT)
         // if (feature.properties.LT < 5) {
         //     return true;
         // } else {
         //     return false;
         // }
         // return feature.properties.LT <5;
-        return feature.geometry.coordinates[2] > 3000;
+        // return feature.geometry.coordinates[2] > 3000,
+        return feature.properties.LT != null;
     },
     pointToLayer: function (point, latlng) {
         let marker = L.marker(latlng);
