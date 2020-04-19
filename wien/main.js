@@ -45,8 +45,19 @@ let sights = L.geoJson.ajax(walkUrl, { //Punkte werden automatisch als Marker ge
             icon: icon
         });
         // console.log("Point", point);
+
+        //falls keine Information vorhanden (null), alternativer Text
+        let bemerkung;
+        if (point.properties.BEMERKUNG == null) {
+            bemerkung = "keine Beschreibung verfügbar";
+        } else {
+            bemerkung = point.properties.BEMERKUNG;
+        }
+
         marker.bindPopup(`<h3>${point.properties.NAME}</h3>
-        <p><a target="links" href="${point.properties.WEITERE_INF}">Link</a></p>`); //bei nur "points" würde {object Object} kommen
+        <p><i>${bemerkung}</i></p>
+        <p><b>Adresse:</b> ${point.properties.ADRESSE}</p>
+        <p><a target="links" href="${point.properties.WEITERE_INF}">>> weitere Informationen</a></p>`); //bei nur "points" würde {object Object} kommen
         return marker;
         // return L.circleMarker(latlng, {color: "red", radius: 5})
     }
