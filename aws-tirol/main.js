@@ -43,12 +43,16 @@ let aws = L.geoJson.ajax(awsUrl, {
     },
     pointToLayer: function (point, latlng) {
         let marker = L.marker(latlng);
-        marker.bindPopup(`<h3>${point.properties.name} ${point.geometry.coordinates[2]} m</h3></br>
+        marker.bindPopup(`<h3>${point.properties.name} ${point.geometry.coordinates[2]} m</h3>
         <ul>
         <li><b>Position:</b> Lat: ${point.geometry.coordinates[0]}/Lng: ${point.geometry.coordinates[1]}</li>
         <li><b>Datum:</b> ${point.properties.date}</li>
         <li><b>Temperatur:</b> ${point.properties.LT} °C</li>
-        </ul>`); //bei nur "points" würde {object Object} kommen
+        <li><b>Windgeschwindigkeit:</b> ${point.properties.WG} m/s</li>
+        <li><b>Relative Luftfeuchte:</b> ${point.properties.RH} %</li>
+        <li><b>Schneehöhe:</b> ${point.properties.HS} cm</li>
+        </ul>
+        <a target="links" href="https://lawine.tirol.gv.at/data/grafiken/1100/standard/tag/${point.properties.plot}.png">>> Graphik der Wetterstation</a>`); //bei nur "points" würde {object Object} kommen
         return marker;
     }
 }).addTo(awsLayer);
