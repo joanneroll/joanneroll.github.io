@@ -102,79 +102,90 @@ L.geoJson.ajax(wandern, {
 //Weltkulturerbe
 let heritage = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WELTKULTERBEOGD&srsName=EPSG:4326&outputFormat=json";
 
-let heritage_list = [];
-let heritage_layer = L.geoJson.ajax(heritage, {
-    style: function (feature) {
-        //Einfärben nach Kern- oder Pufferzone
-        if (feature.properties.TYP == "1") {
-            // console.log("=Kernzone")
-            return {
-                color: "#FF4136", //rot
-                fillOpacity: 0.3
-            };
-        } else if (feature.properties.TYP == "2") {
-            // console.log("=Pufferzone")
-            return {
-                color: "#FFDC00", //gelb
-                fillOpacity: 0.3
-            };
+let drawHeritageSorted = function (jsondata) { //Definieren des geordneten Zeichens
+    heritage_list = jsondata.features
+    console.log("original", heritage_list);
+    //Features zunächst in Liste übergeben und sortiert
+    heritage_list.sort(function compareTyp(obj1, obj2) { //vergleicht jetzt den TYP der zwei Objekte
+        //Bezeichnung "compareTyp" ist willkührlich --> "compareIwas" funktioniert auch
+        console.log(obj1, obj2);
+        console.log(obj1.properties.TYP, obj2.properties.TYP);
+        return obj2.properties.TYP - obj1.properties.TYP; //obj2 - obj1 --> im Array erst 2 dann 1 (Kern- über Pufferzone) //// obj1 - obj2 --> erst 1 dann 2 (Puffer- über Kernzone)
+    })
+    console.log("sorted", heritage_list); //Array nun zuerst mit Typ2, dann Typ1
 
+    //Anschließend Features basierend auf Liste zeichnen
+    L.geoJson(heritage_list, {
+        style: function (feature) {
+            //Einfärben nach Kern- oder Pufferzone
+            if (feature.properties.TYP == "1") {
+                // console.log("=Kernzone")
+                return {
+                    color: "#FF4136", //rot
+                    fillOpacity: 0.3
+                };
+            } else if (feature.properties.TYP == "2") {
+                // console.log("=Pufferzone")
+                return {
+                    color: "#FFDC00", //gelb
+                    fillOpacity: 0.3
+                };
+            }
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(`
+                <h3>${feature.properties.NAME}</h3>
+                <p>${feature.properties.INFO}</p>
+            `)
         }
+    }).addTo(map);
 
-    },
-    onEachFeature: function (feature, layer) {
-        // console.log("Feature: ", feature);
-        // console.log("Layer", layer);
-        if (feature.properties.TYP == "1") { //Kernzone (rot) soll über Pufferzone (gelb) dargestellt werden
-            // console.log("layer vor!")
-            layer.bringToFront(); //funktioniert aber aus Gründen noch nicht 
-        };
+}
 
-        layer.bindPopup(`<h3>${feature.properties.NAME}</h3>
-        <p>${feature.properties.INFO}</p>`)
-
-        heritage_list.push(feature); //add feature to array
-    },
-
-}).addTo(map);
-
-heritage_layer.on("data:loaded", function () {
-    console.log("Heritage loaded");
-    console.log("Heritage Array", heritage_list);
-    for (i in heritage_list) {
-        feature = heritage_list[i];
-        console.log("i", i, "- Typ", feature.properties.TYP);
-        // console.log("i", i, "- Typ (Integer): ", parseInt(heritage_list[i].properties.TYP));
-        TYP_int = parseInt(feature.properties.TYP);
-        console.log("i", i, "- Typ Integer 2: ", TYP_int);
-        // console.log(feature);
-
-        // //Sortieren Versuch 1
-        // if (feature.properties.TYP == "1") { //Kernzone (rot) soll über Pufferzone (gelb) dargestellt werden
-        //     console.log(feature);
-        //     console.log("layer vor!")
-        //     this.bringToFront(); //funktioniert nicht 
-        //     feature.bringToFront(); //funktioniert auch nicht
-        // };
-
-        //Sortieren Versuch 2
-        //Problem hier --> Typ als String angegeben.. in integer konvertieren?
-        //wie einpflegen? vermutlich außerhalb der Schleife, aber wie dann darauf zugreifen?
-
-        // Daten der Größe nach sortieren und dann darstellen --> großer Kreis unter kleinem Kreis
-        // i1 = parseInt(heritage_list[i].properties.TYP);
-        // i2 = parseInt(heritage_list[i+1].properties.TYP);
-        // heritage_list.sort(function compareNumbers(i1, i2) { 
-        //     // return parseInt(heritage_list[i].properties.TYP) - parseInt(heritage_list[i+1].properties.TYP);
-        //     return i1-i2;
-        // });
-
-        //funktioniert so auf jeden Fall nicht...
-        //würde mit diesem i+1 Ansatz wsl auch überhaupt nicht richtig durchlaufen in der aktuellen Form
+//Abrufen / Aktivieren der drawHeritageSorted Funktion inklusive Zeichnen der Features
+let heritage_layer = L.geoJson.ajax(heritage, { //Übergeben der URL
+    middleware: function (jsondata) {
+        return drawHeritageSorted(jsondata);
 
     }
-    // console.log
-})
+    
+});
+
+// //Heritage ohne Sortieren
+// //let heritage_list = [];
+// L.geoJson.ajax(heritage, {
+//     style: function (feature) {
+//         //Einfärben nach Kern- oder Pufferzone
+//         if (feature.properties.TYP == "1") {
+//             // console.log("=Kernzone")
+//             return {
+//                 color: "#FF4136", //rot
+//                 fillOpacity: 0.3
+//             };
+//         } else if (feature.properties.TYP == "2") {
+//             // console.log("=Pufferzone")
+//             return {
+//                 color: "#FFDC00", //gelb
+//                 fillOpacity: 0.3
+//             };
+
+//         }
+
+//     },
+//     onEachFeature: function (feature, layer) {
+//         // console.log("Feature: ", feature);
+//         // console.log("Layer", layer);
+
+//         layer.bindPopup(`<h3>${feature.properties.NAME}</h3>
+//         <p>${feature.properties.INFO}</p>`)
+
+//         // heritage_list.push(feature); //add feature to array
+//     },
+
+// }).addTo(map);
+
+
+
 
 // //Sehenswürdigkeiten 
 // let singleSights_URL = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json";
