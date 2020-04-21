@@ -76,14 +76,14 @@ L.geoJson.ajax(wandern, {
     style: function (feature) {
         //Linienstil nach Stadtwanderweg (Typ 1/schwarz strichliert) oder Rundumadum (Typ 2/schwarz punktiert)
         if (feature.properties.TYP == "1") {
-            // console.log("=Kernzone")
+            // console.log
             return {
                 color: "#111111", //schwarz
                 dashArray: "5,6", //strichliert
                 fillOpacity: 0.3
             };
         } else if (feature.properties.TYP == "2") {
-            // console.log("=Pufferzone")
+            // console.log
             return {
                 color: "#111111", //schwarz
                 dashArray: "1,10", //gepunktet
@@ -92,9 +92,9 @@ L.geoJson.ajax(wandern, {
 
         }
 
-    }, 
+    },
     onEachFeature: function (feature, layer) {
-        console.log("Wanderweg Feature", feature);
+        // console.log("Wanderweg Feature", feature);
         layer.bindPopup(`${feature.properties.BEZ_TEXT}`)
     }
 }).addTo(map);
@@ -102,7 +102,8 @@ L.geoJson.ajax(wandern, {
 //Weltkulturerbe
 let heritage = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WELTKULTERBEOGD&srsName=EPSG:4326&outputFormat=json";
 
-L.geoJson.ajax(heritage, {
+let heritage_list = [];
+let heritage_layer = L.geoJson.ajax(heritage, {
     style: function (feature) {
         //Einfärben nach Kern- oder Pufferzone
         if (feature.properties.TYP == "1") {
@@ -131,9 +132,49 @@ L.geoJson.ajax(heritage, {
 
         layer.bindPopup(`<h3>${feature.properties.NAME}</h3>
         <p>${feature.properties.INFO}</p>`)
-    }
+
+        heritage_list.push(feature); //add feature to array
+    },
+
 }).addTo(map);
 
+heritage_layer.on("data:loaded", function () {
+    console.log("Heritage loaded");
+    console.log("Heritage Array", heritage_list);
+    for (i in heritage_list) {
+        feature = heritage_list[i];
+        console.log("i", i, "- Typ", feature.properties.TYP);
+        // console.log("i", i, "- Typ (Integer): ", parseInt(heritage_list[i].properties.TYP));
+        TYP_int = parseInt(feature.properties.TYP);
+        console.log("i", i, "- Typ Integer 2: ", TYP_int);
+        // console.log(feature);
+
+        // //Sortieren Versuch 1
+        // if (feature.properties.TYP == "1") { //Kernzone (rot) soll über Pufferzone (gelb) dargestellt werden
+        //     console.log(feature);
+        //     console.log("layer vor!")
+        //     this.bringToFront(); //funktioniert nicht 
+        //     feature.bringToFront(); //funktioniert auch nicht
+        // };
+
+        //Sortieren Versuch 2
+        //Problem hier --> Typ als String angegeben.. in integer konvertieren?
+        //wie einpflegen? vermutlich außerhalb der Schleife, aber wie dann darauf zugreifen?
+
+        // Daten der Größe nach sortieren und dann darstellen --> großer Kreis unter kleinem Kreis
+        // i1 = parseInt(heritage_list[i].properties.TYP);
+        // i2 = parseInt(heritage_list[i+1].properties.TYP);
+        // heritage_list.sort(function compareNumbers(i1, i2) { 
+        //     // return parseInt(heritage_list[i].properties.TYP) - parseInt(heritage_list[i+1].properties.TYP);
+        //     return i1-i2;
+        // });
+
+        //funktioniert so auf jeden Fall nicht...
+        //würde mit diesem i+1 Ansatz wsl auch überhaupt nicht richtig durchlaufen in der aktuellen Form
+
+    }
+    // console.log
+})
 
 // //Sehenswürdigkeiten 
 // let singleSights_URL = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json";
