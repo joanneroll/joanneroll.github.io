@@ -43,19 +43,20 @@ let aws = L.geoJson.ajax(awsUrl, {
     },
     pointToLayer: function (point, latlng) {
         let marker = L.marker(latlng);
-        marker.bindPopup(`<h3>${point.properties.name} ${point.geometry.coordinates[2]} m</h3>
-        <ul>
-        <li><b>Position:</b> Lat: ${point.geometry.coordinates[0]}/Lng: ${point.geometry.coordinates[1]}</li>
-        <li><b>Datum:</b> ${point.properties.date}</li>
-        <li><b>Temperatur:</b> ${point.properties.LT} °C</li>`
-        // if (point.properties.WG != null) { //funktioniert so nicht
-        //     + `<li><b>Windgeschwindigkeit:</b> ${point.properties.WG} m/s</li>`
-        // }
-        + `<li><b>Windgeschwindigkeit:</b> ${point.properties.WG} m/s</li>
-        <li><b>Relative Luftfeuchte:</b> ${point.properties.RH} %</li>
-        <li><b>Schneehöhe:</b> ${point.properties.HS} cm</li>
-        </ul>
-        <a target="links" href="https://lawine.tirol.gv.at/data/grafiken/1100/standard/tag/${point.properties.plot}.png">>> Graphik der Wetterstation</a>`);
+        popupText = `<h3>${point.properties.name} ${point.geometry.coordinates[2]} m</h3>`
+                    + `<ul>`
+                    + `<li><b>Position:</b> Lat: ${point.geometry.coordinates[0]}/Lng: ${point.geometry.coordinates[1]}</li>`
+                    + `<li><b>Datum:</b> ${point.properties.date}</li>`
+                    + `<li><b>Temperatur:</b> ${point.properties.LT} °C</li>`
+                    //sind folgende Parameter für die Station nicht definiert, erscheinen sie auch nicht im Popup
+                    + ( typeof point.properties.WG  !== "undefined" ? `<li><b>Windgeschwindigkeit:</b> ${point.properties.WG} m/s</li>` : "" ) 
+                    + ( typeof point.properties.RH !== "undefined" ? `<li><b>Relative Luftfeuchte:</b> ${point.properties.RH} %</li>` : "")
+                    + ( typeof point.properties.HS !== "undefined" ? `<li><b>Schneehöhe:</b> ${point.properties.HS} cm</li>` : "")
+                    + `</ul>`
+                    + `<a target="links" href="https://lawine.tirol.gv.at/data/grafiken/1100/standard/tag/${point.properties.plot}.png">>> Graphik der Wetterstation</a>`
+                    ;
+
+        marker.bindPopup(popupText); 
         return marker;
     }
 }).addTo(awsLayer);
