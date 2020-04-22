@@ -48,16 +48,19 @@ let sights = L.geoJson.ajax(walkUrl, { //Punkte werden automatisch als Marker ge
 
         //falls keine Information vorhanden (null), alternativer Text
         let bemerkung;
-        if (point.properties.BEMERKUNG == null) {
-            bemerkung = "keine Beschreibung verfügbar";
-        } else {
-            bemerkung = point.properties.BEMERKUNG;
-        }
+        // if (point.properties.BEMERKUNG == null) {
+        //     bemerkung = "keine Beschreibung verfügbar";
+        // } else {
+        //     bemerkung = point.properties.BEMERKUNG;
+        // }
+        point.properties.BEMERKUNG == null ? bemerkung = "keine Beschreibung verfügbar" : bemerkung = point.properties.BEMERKUNG;
 
-        marker.bindPopup(`<h3>${point.properties.NAME}</h3>
-        <p><i>${bemerkung}</i></p>
-        <p><b>Adresse:</b> ${point.properties.ADRESSE}</p>
-        <p><a target="links" href="${point.properties.WEITERE_INF}">>> weitere Informationen</a></p>`); //bei nur "points" würde {object Object} kommen
+        let popupText = `<h3>${point.properties.NAME}</h3>` +
+            `<p><i>${bemerkung}</i></p>` +
+            `<p><b>Adresse:</b> ${point.properties.ADRESSE}</p>` +
+            `<p><a target="links" href="${point.properties.WEITERE_INF}">>> weitere Informationen</a></p>`
+
+        marker.bindPopup(popupText)
         return marker;
         // return L.circleMarker(latlng, {color: "red", radius: 5})
     }
@@ -75,21 +78,15 @@ let wandern = "https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&
 L.geoJson.ajax(wandern, {
     style: function (feature) {
         //Linienstil nach Stadtwanderweg (Typ 1/schwarz strichliert) oder Rundumadum (Typ 2/schwarz punktiert)
-        if (feature.properties.TYP == "1") {
-            // console.log
-            return {
-                color: "#111111", //schwarz
-                dashArray: "5,6", //strichliert
-                fillOpacity: 0.3
-            };
-        } else if (feature.properties.TYP == "2") {
-            // console.log
-            return {
-                color: "#111111", //schwarz
-                dashArray: "1,10", //gepunktet
-                fillOpacity: 0.3
-            };
+        function setLineStyle(Typ) {
+            return Typ == "1" ? "5,6" : //strichliert 
+                Typ == "2" ? "1,10" : ""; //"gepunktet" / sehr kurze Striche
+        };
 
+        return {
+            color: "#111111", //schwarz
+            dashArray: setLineStyle(feature.properties.TYP),
+            fillOpacity: 0.3
         }
 
     },
@@ -117,20 +114,16 @@ let drawHeritageSorted = function (jsondata) { //Definieren des geordneten Zeich
     //Anschließend Features basierend auf Liste zeichnen
     L.geoJson(heritage_list, {
         style: function (feature) {
-            //Einfärben nach Kern- oder Pufferzone
-            if (feature.properties.TYP == "1") {
-                // console.log("=Kernzone")
-                return {
-                    color: "#FF4136", //rot
-                    fillOpacity: 0.3
-                };
-            } else if (feature.properties.TYP == "2") {
-                // console.log("=Pufferzone")
-                return {
-                    color: "#FFDC00", //gelb
-                    fillOpacity: 0.3
-                };
-            }
+            function setColor(Typ) {
+                return Typ == "1" ? "#FF4136" : //rot = Kernzone
+                    Typ == "2" ? "#FFDC00" : ""; //gelb = Pufferzone
+            };
+
+            return {
+                fillOpacity: 0.3,
+                color: setColor(feature.properties.TYP), //Einfärben nach Kern- und Pufferzone
+            };
+
         },
         onEachFeature: function (feature, layer) {
             layer.bindPopup(`
@@ -148,7 +141,7 @@ let heritage_layer = L.geoJson.ajax(heritage, { //Übergeben der URL
         return drawHeritageSorted(jsondata);
 
     }
-    
+
 });
 
 // //Heritage ohne Sortieren
