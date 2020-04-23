@@ -41,3 +41,18 @@ main h2 {
     height: 70vh;
     border: 1px solid gray;
 }
+
+.label-temperature {
+    font-size: 1.25em;
+    font-weight: bold;
+    padding: 0.3em;
+    border: 1px solid gray;
+    background-color: silver;
+    display: inline /*Hintergrund so groß wie text*/;
+    text-shadow: /*weiße Linie um text - Halo Effekt*/
+        -1px -1px 0 white,
+        1px -1px 0 white,
+        -1px 1px 0 white,
+        1px 1px 0 white;
+
+}
