@@ -62,4 +62,4 @@ let aws = L.geoJson.ajax(awsUrl, {
         marker.bindPopup(popupText); 
         return marker;
     }
-}).addTo(awsLayer);
+}).addTo(overlay.stations);
