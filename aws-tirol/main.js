@@ -96,13 +96,13 @@ let drawWind = function (jsonData) {
         },
         pointToLayer: function (feature, latlng) {
 
-            let windKMH = feature.properties.WG*3.6;
+            let windKMH = Math.round(feature.properties.WG*3.6);
 
 
             return L.marker(latlng, {
                 title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m)`,
                 icon: L.divIcon({
-                    html: `<div class="label-wind">${windKMH.toFixed(1)}</div>`,
+                    html: `<div class="label-wind">${windKMH}</div>`,
                     className: "ignore-me" 
                 })
 
@@ -123,4 +123,6 @@ aws.on("data:loaded", function () {
     map.fitBounds(overlay.stations.getBounds()); //Boundaries auf angezeigte Station setzen 
 
     overlay.wind.addTo(map); //dieser Layer wird beim Start angezeigt
+
+    console.log(COLORS);
 });
