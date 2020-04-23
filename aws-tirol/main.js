@@ -67,6 +67,25 @@ let aws = L.geoJson.ajax(awsUrl, {
     }
 }).addTo(overlay.stations);
 
+let getColor = function (val, ramp) {
+    console.log(val, ramp);
+    //Solange der Wert niedriger ist als die Schwelle, Farbcode übergeben
+    for (let i = 0; i < ramp.length; i++) {
+        const pair = ramp[i];
+        if (val >= pair[0]) {
+            break;
+        } else {
+            col = pair[1]
+        }
+        // console.log(val,pair);     
+    }
+
+    return col;
+
+};
+
+//console.log(color);
+
 let drawTemperature = function (jsonData) {
     console.log(jsonData);
     L.geoJson(jsonData, {
@@ -74,10 +93,12 @@ let drawTemperature = function (jsonData) {
             return feature.properties.LT
         },
         pointToLayer: function (feature, latlng) {
+            color = getColor(feature.properties.LT, COLORS.temperature);
+            console.log(color);
             return L.marker(latlng, {
                 title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m)`,
                 icon: L.divIcon({
-                    html: `<div class="label-temperature">${feature.properties.LT.toFixed(1)}</div>`,
+                    html: `<div class="label-temperature" style="background-color:${color}">${feature.properties.LT.toFixed(1)}</div>`,
                     className: "ignore-me" // dirty hack - Standard StyleClass wird überschrieben
                 })
 
@@ -89,26 +110,26 @@ let drawTemperature = function (jsonData) {
 
 
 let drawWind = function (jsonData) {
-    console.log(jsonData);
+    // console.log(jsonData);
     L.geoJson(jsonData, {
         filter: function (feature) {
             return feature.properties.WG
         },
         pointToLayer: function (feature, latlng) {
 
-            let windKMH = Math.round(feature.properties.WG*3.6);
+            let windKMH = Math.round(feature.properties.WG * 3.6);
 
 
             return L.marker(latlng, {
                 title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m)`,
                 icon: L.divIcon({
                     html: `<div class="label-wind">${windKMH}</div>`,
-                    className: "ignore-me" 
+                    className: "ignore-me"
                 })
 
             });
         }
-    }).addTo(overlay.wind); 
+    }).addTo(overlay.wind);
 
 };
 
@@ -124,5 +145,5 @@ aws.on("data:loaded", function () {
 
     overlay.wind.addTo(map); //dieser Layer wird beim Start angezeigt
 
-    console.log(COLORS);
+    // console.log(COLORS);
 });
