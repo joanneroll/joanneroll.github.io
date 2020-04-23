@@ -56,3 +56,15 @@ main h2 {
         1px 1px 0 white;
 
 }
+
+.label-wind {
+    font-size: 1.25em;
+    font-style: italic;
+    color: orange;
+    text-shadow: 
+        -1px -1px 0 white,
+        1px -1px 0 white,
+        -1px 1px 0 white,
+        1px 1px 0 white;
+
+}

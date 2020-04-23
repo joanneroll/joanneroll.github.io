@@ -8,7 +8,8 @@ let map = L.map("map", {
 
 let overlay = {
     stations: L.featureGroup(),
-    temperature: L.featureGroup()
+    temperature: L.featureGroup(),
+    wind: L.featureGroup()
 }
 
 L.control.layers({
@@ -25,7 +26,8 @@ L.control.layers({
     ])
 }, {
     "Wetterstationen Tirol": overlay.stations,
-    "Temperatur (°C)": overlay.temperature
+    "Temperatur (°C)": overlay.temperature,
+    "Windgeschwindigkeit (km/h)": overlay.wind
 
 }).addTo(map);
 
@@ -43,29 +45,29 @@ let aws = L.geoJson.ajax(awsUrl, {
         // return feature.properties.LT <5;
         // return feature.geometry.coordinates[2] > 3000,
         // return feature.properties.LT != null;
-        return feature.properties.LT; 
+        return feature.properties.LT;
     },
     pointToLayer: function (point, latlng) {
         let marker = L.marker(latlng);
-        popupText = `<h3>${point.properties.name} ${point.geometry.coordinates[2]} m</h3>`
-                    + `<ul>`
-                    + `<li><b>Position:</b> Lat: ${point.geometry.coordinates[0].toFixed(5)}/Lng: ${point.geometry.coordinates[1].toFixed(5)}</li>`
-                    + `<li><b>Datum:</b> ${point.properties.date}</li>`
-                    + `<li><b>Temperatur:</b> ${point.properties.LT} °C</li>`
-                    //sind folgende Parameter für die Station nicht definiert, erscheinen sie auch nicht im Popup
-                    + ( typeof point.properties.WG  !== "undefined" ? `<li><b>Windgeschwindigkeit:</b> ${point.properties.WG} m/s</li>` : "" ) 
-                    + ( typeof point.properties.RH !== "undefined" ? `<li><b>Relative Luftfeuchte:</b> ${point.properties.RH} %</li>` : "")
-                    + ( typeof point.properties.HS !== "undefined" ? `<li><b>Schneehöhe:</b> ${point.properties.HS} cm</li>` : "")
-                    + `</ul>`
-                    + `<a target="plot" href="https://lawine.tirol.gv.at/data/grafiken/1100/standard/tag/${point.properties.plot}.png">>> Graphik der Wetterstation</a>`
-                    ;
+        popupText = `<h3>${point.properties.name} ${point.geometry.coordinates[2]} m</h3>` +
+            `<ul>` +
+            `<li><b>Position:</b> Lat: ${point.geometry.coordinates[0].toFixed(5)}/Lng: ${point.geometry.coordinates[1].toFixed(5)}</li>` +
+            `<li><b>Datum:</b> ${point.properties.date}</li>` +
+            `<li><b>Temperatur:</b> ${point.properties.LT} °C</li>`
+            //sind folgende Parameter für die Station nicht definiert, erscheinen sie auch nicht im Popup
+            +
+            (typeof point.properties.WG !== "undefined" ? `<li><b>Windgeschwindigkeit:</b> ${point.properties.WG} m/s</li>` : "") +
+            (typeof point.properties.RH !== "undefined" ? `<li><b>Relative Luftfeuchte:</b> ${point.properties.RH} %</li>` : "") +
+            (typeof point.properties.HS !== "undefined" ? `<li><b>Schneehöhe:</b> ${point.properties.HS} cm</li>` : "") +
+            `</ul>` +
+            `<a target="plot" href="https://lawine.tirol.gv.at/data/grafiken/1100/standard/tag/${point.properties.plot}.png">>> Graphik der Wetterstation</a>`;
 
-        marker.bindPopup(popupText); 
+        marker.bindPopup(popupText);
         return marker;
     }
 }).addTo(overlay.stations);
 
-let drawTemperature = function(jsonData) {
+let drawTemperature = function (jsonData) {
     console.log(jsonData);
     L.geoJson(jsonData, {
         filter: function (feature) {
@@ -85,11 +87,40 @@ let drawTemperature = function(jsonData) {
 
 };
 
-aws.on("data:loaded", function() {
+
+let drawWind = function (jsonData) {
+    console.log(jsonData);
+    L.geoJson(jsonData, {
+        filter: function (feature) {
+            return feature.properties.WG
+        },
+        pointToLayer: function (feature, latlng) {
+
+            let windKMH = feature.properties.WG*3.6;
+
+
+            return L.marker(latlng, {
+                title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m)`,
+                icon: L.divIcon({
+                    html: `<div class="label-wind">${windKMH.toFixed(1)}</div>`,
+                    className: "ignore-me" 
+                })
+
+            });
+        }
+    }).addTo(overlay.wind); 
+
+};
+
+
+
+aws.on("data:loaded", function () {
     // console.log(aws.toGeoJSON()); //aws wieder als GeoJSON abrufen
 
     drawTemperature(aws.toGeoJSON()); //Funktion wird aufgerufen und GeoJSON Objekt übergeben
+    drawWind(aws.toGeoJSON());
+
     map.fitBounds(overlay.stations.getBounds()); //Boundaries auf angezeigte Station setzen 
 
-    overlay.temperature.addTo(map); //dieser Layer wird beim Start angezeigt
+    overlay.wind.addTo(map); //dieser Layer wird beim Start angezeigt
 });
