@@ -116,14 +116,13 @@ let drawWind = function (jsonData) {
             return feature.properties.WG
         },
         pointToLayer: function (feature, latlng) {
-
+            color = getColor(feature.properties.WG, COLORS.wind);
             let windKMH = Math.round(feature.properties.WG * 3.6);
-
 
             return L.marker(latlng, {
                 title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m)`,
                 icon: L.divIcon({
-                    html: `<div class="label-wind">${windKMH}</div>`,
+                    html: `<div class="label-wind" style="background-color:${color}">${windKMH}</div>`,
                     className: "ignore-me"
                 })
 
