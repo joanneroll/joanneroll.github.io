@@ -1,8 +1,6 @@
 let startLayer = L.tileLayer.provider("BasemapAT.grau");
 
 let map = L.map("map", {
-    center: [47.3, 11.5],
-    zoom: 8,
     layers: [
         startLayer
     ]
@@ -32,7 +30,7 @@ let awsUrl = "https://aws.openweb.cc/stations";
 
 let aws = L.geoJson.ajax(awsUrl, {
     filter: function (feature) {
-        console.log("Feature in filer: ", feature);
+        // console.log("Feature in filer: ", feature);
         // console.log(feature.properties.LT)
         // if (feature.properties.LT < 5) {
         //     return true;
@@ -63,3 +61,11 @@ let aws = L.geoJson.ajax(awsUrl, {
         return marker;
     }
 }).addTo(overlay.stations);
+
+aws.on("data:loaded", function() {
+    console.log(aws.toGeoJSON()); //aws wieder als GeoJSON abrufen
+
+    map.fitBounds(overlay.stations.getBounds()); //Boundaries auf angezeigte Station setzen 
+
+    overlay.stations.addTo(map); //Stationen werden wieder angezeigt
+});
