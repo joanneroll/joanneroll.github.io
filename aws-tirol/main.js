@@ -200,10 +200,10 @@ aws.on("data:loaded", function () {
 L.control.rainviewer({ 
     position: 'bottomleft',
     nextButtonText: '>',
-    playStopButtonText: 'Play/Stop',
+    playStopButtonText: 'Play / Stop',
     prevButtonText: '<',
-    positionSliderLabelText: "Hour:",
-    opacitySliderLabelText: "Opacity:",
+    positionSliderLabelText: "Zeit:",
+    opacitySliderLabelText: "Sichtbarkeit:",
     animationInterval: 500,
-    opacity: 0.5
+    opacity: 1
 }).addTo(map);
