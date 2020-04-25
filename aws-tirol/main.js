@@ -11,7 +11,8 @@ let map = L.map("map", {
 let overlay = {
     stations: L.featureGroup(),
     temperature: L.featureGroup(),
-    wind: L.featureGroup()
+    wind: L.featureGroup(),
+    humidity: L.featureGroup()
 }
 
 L.control.layers({
@@ -29,7 +30,8 @@ L.control.layers({
 }, {
     "Wetterstationen Tirol": overlay.stations,
     "Temperatur (°C)": overlay.temperature,
-    "Windgeschwindigkeit (km/h)": overlay.wind
+    "Windgeschwindigkeit (km/h)": overlay.wind,
+    "Relative Luftfeuchte (%)": overlay.humidity
 
 }).addTo(map);
 
@@ -105,7 +107,6 @@ let drawTemperature = function (jsonData) {
 
 };
 
-
 let drawWind = function (jsonData) {
     // console.log(jsonData);
     L.geoJson(jsonData, {
@@ -131,14 +132,38 @@ let drawWind = function (jsonData) {
 
 };
 
+let drawHumidity = function (jsonData) {
+    L.geoJson(jsonData, {
+        filter: function (feature) {
+            return feature.properties.RH
+        },
+        pointToLayer: function (feature, latlng) {
+            console.log(feature)
+
+            // let color = getColor(windKMH, COLORS.wind);
+
+            return L.marker(latlng, {
+                title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m) - ${feature.properties.RH} %`,
+                icon: L.divIcon({
+                    html: `<div class="label-temperature">${feature.properties.RH.toFixed(1)}</div>`,
+                    className: "ignore-me"
+                })
+
+            });
+        }
+    }).addTo(overlay.humidity);
+
+};
+
 //Aufrufen der ZeichenFunktionen
 aws.on("data:loaded", function () {
     // console.log(aws.toGeoJSON()); //aws wieder als GeoJSON abrufen
     //Funktion wird aufgerufen und GeoJSON Objekt übergeben
     drawTemperature(aws.toGeoJSON());
     drawWind(aws.toGeoJSON());
+    drawHumidity(aws.toGeoJSON());
 
     // map.fitBounds(overlay.stations.getBounds()); //Boundaries auf angezeigte Station setzen 
 
-    overlay.wind.addTo(map); //dieser Layer wird als default angezeigt
+    overlay.humidity.addTo(map); //dieser Layer wird als default angezeigt
 });
