@@ -86,6 +86,8 @@ let getColor = function (val, ramp) {
 
 };
 
+console.log(COLORS);
+
 //ZeichenFunktionen der einzelnen Parameter/DatenLayer
 let drawTemperature = function (jsonData) {
     // console.log(jsonData);
@@ -140,14 +142,14 @@ let drawHumidity = function (jsonData) {
             return feature.properties.RH
         },
         pointToLayer: function (feature, latlng) {
-            console.log(feature)
+            // console.log(feature)
 
-            // let color = getColor(windKMH, COLORS.wind);
+            let color = getColor(feature.properties.RH, COLORS.humidity);
 
             return L.marker(latlng, {
                 title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m) - ${feature.properties.RH} %`,
                 icon: L.divIcon({
-                    html: `<div class="label-temperature">${feature.properties.RH.toFixed(1)}</div>`,
+                    html: `<div class="label-humidity" style="background-color:${color}">${feature.properties.RH.toFixed(0)}</div>`,
                     className: "ignore-me"
                 })
 
@@ -163,14 +165,14 @@ let drawSnow = function (jsonData) {
             return feature.properties.HS
         },
         pointToLayer: function (feature, latlng) {
-            console.log(feature)
+            // console.log(feature)
 
-            // let color = getColor();
+            let color = getColor(feature.properties.HS, COLORS.snow);
 
             return L.marker(latlng, {
                 title: `${feature.properties.name} (${feature.geometry.coordinates[2]}m) - ${feature.properties.HS} cm`,
                 icon: L.divIcon({
-                    html: `<div class="label-temperature">${feature.properties.HS.toFixed(1)}</div>`,
+                    html: `<div class="label-snow" style="background-color:${color}">${feature.properties.HS.toFixed(1)}</div>`,
                     className: "ignore-me"
                 })
 
