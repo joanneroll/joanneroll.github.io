@@ -195,3 +195,15 @@ aws.on("data:loaded", function () {
 
     overlay.snow.addTo(map); //dieser Layer wird als default angezeigt
 });
+
+//Leaflet Plugin Rainviewer
+L.control.rainviewer({ 
+    position: 'bottomleft',
+    nextButtonText: '>',
+    playStopButtonText: 'Play/Stop',
+    prevButtonText: '<',
+    positionSliderLabelText: "Hour:",
+    opacitySliderLabelText: "Opacity:",
+    animationInterval: 500,
+    opacity: 0.5
+}).addTo(map);
