@@ -70,12 +70,14 @@ main h2 {
 
 .label-humidity {
     font-size: 1.25em;
-    font-weight: bold;
-    padding: 0.3em;
-    border: 1px solid gray;
+    height: 1.6em;
+    width: 1.6em;
+    padding: 0.15em;
     background-color: silver;
-    display: inline /*Hintergrund so groß wie text*/;
-    text-shadow: /*weiße Linie um text - Halo Effekt*/
+    border: 1px solid gray;
+    border-radius: 50%;
+    text-align: center;
+    text-shadow:
         -1px -1px 0 white,
         1px -1px 0 white,
         -1px 1px 0 white,
