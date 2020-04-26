@@ -1,8 +1,8 @@
 let startLayer = L.tileLayer.provider("BasemapAT.grau");
 
 let map = L.map("map", {
-    center: [47.3, 11.5],
-    zoom: 8,
+    // center: [47.3, 11.5],
+    // zoom: 8,
     layers: [
         startLayer
     ]
@@ -191,9 +191,9 @@ aws.on("data:loaded", function () {
     drawHumidity(aws.toGeoJSON());
     drawSnow(aws.toGeoJSON());
 
-    // map.fitBounds(overlay.stations.getBounds()); //Boundaries auf angezeigte Station setzen 
+    map.fitBounds(overlay.stations.getBounds()); //Boundaries auf angezeigte Station setzen 
 
-    overlay.snow.addTo(map); //dieser Layer wird als default angezeigt
+    overlay.stations.addTo(map); //dieser Layer wird als default angezeigt
 });
 
 //Leaflet Plugin Rainviewer
