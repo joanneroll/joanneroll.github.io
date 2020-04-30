@@ -80,11 +80,25 @@ let drawEtappe = function(nr) {
     });
     
     gpx.on("loaded", function (evt) {
-        // console.log(evt);
+        console.log("Event", evt);
         map.fitBounds(evt.target.getBounds());
     }).addTo(overlay.etappen);
     
     overlay.etappen.addTo(map);
+
+    //Metadateninfos auf Seite anzeigen, wenn verfügbar
+    for (const key in ETAPPEN[nr]) { //man geht durch alle elemente durch 
+        if (ETAPPEN[nr].hasOwnProperty(key)) { //hasOwnProperty - saubere variante für "existiert"
+            const val = ETAPPEN[nr][key];
+            console.log(`et-${key}`);
+            let element = document.querySelector(`#et-${key}`);
+            if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
+                element.innerHTML = val;
+                // console.log(val);
+            };
+            
+        }
+    }
 };
 drawEtappe(1); //Übergeben der Etappennummer
 
