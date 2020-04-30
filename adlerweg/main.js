@@ -57,14 +57,14 @@ overlay.adlerblicke.addTo(map);
 let drawEtappe = function(nr) {
     //Metadaten verwenden, um die richtige Etappe zu erwischen
     //nr ist ein key in ETAPPEN; track
-    console.log(ETAPPEN[nr].track); 
+    // console.log(ETAPPEN[nr].track); 
     let track = ETAPPEN[nr].track.replace("A", ""); //"A" zu Beginn der TrackNr entfernen
-    console.log(track);
+    // console.log(track);
 
     let gpx = new L.GPX(`gpx/AdlerwegEtappe${track}.gpx`, {
         async: true,
         marker_options: { //in dem plugin können die normalen icons settings mitverwendet werdn
-            startIconUrl: 'icons/number_1.png',
+            startIconUrl: `icons/number_${nr}.png`,
             endIconUrl: 'icons/finish.png',
             shadowUrl: null,
             iconSize: [32, 37],
@@ -78,16 +78,16 @@ let drawEtappe = function(nr) {
     });
     
     gpx.on("loaded", function (evt) {
-        console.log(evt);
+        // console.log(evt);
         map.fitBounds(evt.target.getBounds());
     }).addTo(overlay.etappen);
     
     overlay.etappen.addTo(map);
 };
-drawEtappe(2); //Übergeben der Etappennummer
+drawEtappe(1); //Übergeben der Etappennummer
 
 let pulldown = document.querySelector("#pulldown");
-console.log(pulldown);
+// console.log(pulldown);
 
 //im Pulldown Menü alle Etappen zur Auswahl stellen 
 //dazu wird über ETAPPEN iteriert
@@ -96,4 +96,11 @@ for (let i = 1; i < ETAPPEN.length; i++) { //beginnen bei 1 um header zu übersp
     const etappe = ETAPPEN[i]; 
     // console.log(etappe);
     pulldown.innerHTML += `<option value="${i}">${etappe.titel}</option>`    
+}
+
+pulldown.onchange = function(evt) {
+    console.log("evt", evt);
+    let nr = evt.target.options[evt.target.options.selectedIndex].value;
+    // console.log("Nummer", nr);
+    drawEtappe(nr);
 }
