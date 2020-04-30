@@ -55,6 +55,8 @@ for (const blick of ADLERBLICKE) {
 overlay.adlerblicke.addTo(map);
 
 let drawEtappe = function(nr) {
+    overlay.etappen.clearLayers();
+
     //Metadaten verwenden, um die richtige Etappe zu erwischen
     //nr ist ein key in ETAPPEN; track
     // console.log(ETAPPEN[nr].track); 
