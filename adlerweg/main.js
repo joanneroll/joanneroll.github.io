@@ -86,4 +86,14 @@ let drawEtappe = function(nr) {
 };
 drawEtappe(2); //Übergeben der Etappennummer
 
+let pulldown = document.querySelector("#pulldown");
+console.log(pulldown);
 
+//im Pulldown Menü alle Etappen zur Auswahl stellen 
+//dazu wird über ETAPPEN iteriert
+for (let i = 1; i < ETAPPEN.length; i++) { //beginnen bei 1 um header zu überspringen
+    //Objekt der Etappe wird in Variable gespeichert
+    const etappe = ETAPPEN[i]; 
+    // console.log(etappe);
+    pulldown.innerHTML += `<option value="${i}">${etappe.titel}</option>`    
+}
