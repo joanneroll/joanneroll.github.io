@@ -80,7 +80,7 @@ let drawEtappe = function(nr) {
     });
     
     gpx.on("loaded", function (evt) {
-        console.log("Event", evt);
+        // console.log("Event", evt);
         map.fitBounds(evt.target.getBounds());
     }).addTo(overlay.etappen);
     
@@ -90,7 +90,7 @@ let drawEtappe = function(nr) {
     for (const key in ETAPPEN[nr]) { //man geht durch alle elemente durch 
         if (ETAPPEN[nr].hasOwnProperty(key)) { //hasOwnProperty - saubere variante für "existiert"
             const val = ETAPPEN[nr][key];
-            console.log(`et-${key}`);
+            // console.log(`et-${key}`);
             let element = document.querySelector(`#et-${key}`);
             if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
                 element.innerHTML = val;
@@ -105,17 +105,15 @@ drawEtappe(1); //Übergeben der Etappennummer
 let pulldown = document.querySelector("#pulldown");
 // console.log(pulldown);
 
-//im Pulldown Menü alle Etappen zur Auswahl stellen 
-//dazu wird über ETAPPEN iteriert
-for (let i = 1; i < ETAPPEN.length; i++) { //beginnen bei 1 um header zu überspringen
-    //Objekt der Etappe wird in Variable gespeichert
-    const etappe = ETAPPEN[i]; 
+//im Pulldown Menü alle Etappen zur Auswahl stellen, dazu über ETAPPEN iterieren
+for (let i = 1; i < ETAPPEN.length; i++) { //beginnen bei 1 um Header zu überspringen
+    const etappe = ETAPPEN[i];     //Objekt der Etappe wird in Variable gespeichert
     // console.log(etappe);
     pulldown.innerHTML += `<option value="${i}">${etappe.titel}</option>`    
 }
 
 pulldown.onchange = function(evt) {
-    console.log("evt", evt);
+    // console.log("evt", evt);
     let nr = evt.target.options[evt.target.options.selectedIndex].value;
     // console.log("Nummer", nr);
     drawEtappe(nr);
