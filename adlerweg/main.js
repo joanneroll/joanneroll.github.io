@@ -69,13 +69,13 @@ let drawEtappe = function (nr) {
 
         if (typeof keylist !== "undefined") {
 
-            console.log("keylist", keylist);
+            // console.log("keylist", keylist);
             for (const key in keylist) { //Liste der id keys, die aktuell mit metadaten gefüllt sind
                 htmlstring = keylist[key];
                 if (htmlstring == null) {
                     continue;
                 }
-                console.log("id: ", htmlstring.id);
+                // console.log("id: ", htmlstring.id);
                 // let element = document.querySelector(`#${htmlstring.id}`)
                 // console.log(element)
                 // element.innerHTML = ""
@@ -126,13 +126,16 @@ let drawEtappe = function (nr) {
         keylist = []; //keylist clearen
         for (const key in ETAPPEN[nr]) { //man geht durch alle elemente durch 
             if (ETAPPEN[nr].hasOwnProperty(key)) { //hasOwnProperty - saubere variante für "existiert"
-                const val = ETAPPEN[nr][key];
+                let val = ETAPPEN[nr][key];
+
+                if (key == "einkehr") {
+                    val = val.split("#").join(", ");
+                }
                 // console.log(`et-${key}`);
                 let element = document.querySelector(`#et-${key}`);
                 keylist.push(element); //speichert geänderte Metadaten
                 if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
                     element.innerHTML = val;
-                    // console.log(val);
                 };
 
             }
