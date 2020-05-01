@@ -53,8 +53,9 @@ for (const blick of ADLERBLICKE) {
 }
 
 overlay.adlerblicke.addTo(map);
+let keylist;
 
-let drawEtappe = function(nr) {
+let drawEtappe = function (nr) {
     overlay.etappen.clearLayers();
 
     //Metadaten verwenden, um die richtige Etappe zu erwischen
@@ -63,56 +64,100 @@ let drawEtappe = function(nr) {
     let track = ETAPPEN[nr].track.replace("A", ""); //"A" zu Beginn der TrackNr entfernen
     // console.log(track);
 
-    let gpx = new L.GPX(`gpx/AdlerwegEtappe${track}.gpx`, {
-        async: true,
-        marker_options: { //in dem plugin können die normalen icons settings mitverwendet werdn
-            startIconUrl: `icons/number_${nr}.png`,
-            endIconUrl: 'icons/finish.png',
-            shadowUrl: null,
-            iconSize: [32, 37],
-            iconAnchor: [16, 37],
-            popupAnchor: [0, -37]
-        },
-        polyline_options: {
-            color: 'black',
-            dashArray: 5
-        }
-    });
-    
-    gpx.on("loaded", function (evt) {
-        // console.log("Event", evt);
-        map.fitBounds(evt.target.getBounds());
-    }).addTo(overlay.etappen);
-    
-    overlay.etappen.addTo(map);
+    if (nr == 0) { //nr = 0 --> Ausgangsseite
+        map.fitBounds(overlay.adlerblicke.getBounds()); //Mapbounds auf Adlerblicke
 
-    //Metadateninfos auf Seite anzeigen, wenn verfügbar
-    for (const key in ETAPPEN[nr]) { //man geht durch alle elemente durch 
-        if (ETAPPEN[nr].hasOwnProperty(key)) { //hasOwnProperty - saubere variante für "existiert"
-            const val = ETAPPEN[nr][key];
-            // console.log(`et-${key}`);
-            let element = document.querySelector(`#et-${key}`);
-            if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
-                element.innerHTML = val;
-                // console.log(val);
-            };
-            
+        if (typeof keylist !== "undefined") {
+
+            console.log("keylist", keylist);
+            for (const key in keylist) { //Liste der id keys, die aktuell mit metadaten gefüllt sind
+                htmlstring = keylist[key];
+                if (htmlstring == null) {
+                    continue;
+                }
+                console.log("id: ", htmlstring.id);
+                // let element = document.querySelector(`#${htmlstring.id}`)
+                // console.log(element)
+                // element.innerHTML = ""
+
+                //originaler Text aus index.html abrufen...
+                // $.get(document.location.href, function(data) {
+                //     // console.log(data);
+                //     // let info = document.querySelector("#et-titel")
+                //     // console.log(info)
+
+                //     console.log("aktueller titel: ", $("#et-titel").text())
+                // })
+
+                // // $(document).ready(function() {
+                // //     console.log("ajax", $("et-titel").text());
+
+                // // });
+
+            }
+
         }
+
+    } else {
+        let gpx = new L.GPX(`gpx/AdlerwegEtappe${track}.gpx`, {
+            async: true,
+            marker_options: { //in dem plugin können die normalen icons settings mitverwendet werdn
+                startIconUrl: `icons/number_${nr}.png`,
+                endIconUrl: 'icons/finish.png',
+                shadowUrl: null,
+                iconSize: [32, 37],
+                iconAnchor: [16, 37],
+                popupAnchor: [0, -37]
+            },
+            polyline_options: {
+                color: 'black',
+                dashArray: 5
+            }
+        });
+
+        gpx.on("loaded", function (evt) {
+            // console.log("Event", evt);
+            map.fitBounds(evt.target.getBounds());
+        }).addTo(overlay.etappen);
+
+        overlay.etappen.addTo(map);
+
+        //Metadateninfos auf Seite anzeigen, wenn verfügbar
+        keylist = []; //keylist clearen
+        for (const key in ETAPPEN[nr]) { //man geht durch alle elemente durch 
+            if (ETAPPEN[nr].hasOwnProperty(key)) { //hasOwnProperty - saubere variante für "existiert"
+                const val = ETAPPEN[nr][key];
+                // console.log(`et-${key}`);
+                let element = document.querySelector(`#et-${key}`);
+                keylist.push(element); //speichert geänderte Metadaten
+                if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
+                    element.innerHTML = val;
+                    // console.log(val);
+                };
+
+            }
+        }
+
     }
+
+
 };
-drawEtappe(1); //Übergeben der Etappennummer
+drawEtappe(0); //Übergeben der Etappennummer
 
 let pulldown = document.querySelector("#pulldown");
-// console.log(pulldown);
+pulldown.innerHTML += `<option value="0">Etappe auswählen</option>`
 
 //im Pulldown Menü alle Etappen zur Auswahl stellen, dazu über ETAPPEN iterieren
 for (let i = 1; i < ETAPPEN.length; i++) { //beginnen bei 1 um Header zu überspringen
-    const etappe = ETAPPEN[i];     //Objekt der Etappe wird in Variable gespeichert
+    const etappe = ETAPPEN[i]; //Objekt der Etappe wird in Variable gespeichert
     // console.log(etappe);
-    pulldown.innerHTML += `<option value="${i}">${etappe.titel}</option>`    
+    pulldown.innerHTML += `<option value="${i}">${etappe.titel}</option>`
 }
 
-pulldown.onchange = function(evt) {
+// console.log(pulldown);
+
+
+pulldown.onchange = function (evt) {
     // console.log("evt", evt);
     let nr = evt.target.options[evt.target.options.selectedIndex].value;
     // console.log("Nummer", nr);
