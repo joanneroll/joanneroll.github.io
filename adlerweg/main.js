@@ -35,7 +35,7 @@ L.control.layers({
 // console.log(ADLERBLICKE);
 
 //Speichern des HTML contents
-let html_original = document.querySelectorAll('*[id^="et-"]'); 
+let html_original = document.querySelectorAll('*[id^="et-"]');
 let html_original_list = []
 for (let i = 0; i < html_original.length; i++) {
     let element = html_original[i];
@@ -71,7 +71,7 @@ let drawEtappe = function (nr) {
 
     if (nr == 0) { //nr = 0 --> Ausgangsseite
         map.fitBounds(overlay.adlerblicke.getBounds()); //Mapbounds auf Adlerblicke
-        
+
         //Original HTML Content einfügen 
         // console.log(html_original_list);
         for (let i = 0; i < html_original_list.length; i++) {
@@ -112,6 +112,7 @@ let drawEtappe = function (nr) {
             if (ETAPPEN[nr].hasOwnProperty(key)) { //hasOwnProperty - saubere variante für "existiert"
                 let val = ETAPPEN[nr][key];
 
+                // value von "einkehr" überschreiben: # mit , ersetzen
                 if (key == "einkehr") {
                     val = val.split("#").join(", ");
                 }
