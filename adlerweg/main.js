@@ -34,7 +34,13 @@ L.control.layers({
 // console.log(ETAPPEN);
 // console.log(ADLERBLICKE);
 
-// array mit objekte --> for of 
+//Speichern des HTML contents
+let html_original = document.querySelectorAll('*[id^="et-"]'); 
+let html_original_list = []
+for (let i = 0; i < html_original.length; i++) {
+    let element = html_original[i];
+    html_original_list.push([element.id, element.innerHTML])
+}
 
 for (const blick of ADLERBLICKE) {
     // console.log(blick);
@@ -53,7 +59,6 @@ for (const blick of ADLERBLICKE) {
 }
 
 overlay.adlerblicke.addTo(map);
-let keylist;
 
 let drawEtappe = function (nr) {
     overlay.etappen.clearLayers();
@@ -66,36 +71,16 @@ let drawEtappe = function (nr) {
 
     if (nr == 0) { //nr = 0 --> Ausgangsseite
         map.fitBounds(overlay.adlerblicke.getBounds()); //Mapbounds auf Adlerblicke
-
-        if (typeof keylist !== "undefined") {
-
-            // console.log("keylist", keylist);
-            for (const key in keylist) { //Liste der id keys, die aktuell mit metadaten gefüllt sind
-                htmlstring = keylist[key];
-                if (htmlstring == null) {
-                    continue;
-                }
-                // console.log("id: ", htmlstring.id);
-                // let element = document.querySelector(`#${htmlstring.id}`)
-                // console.log(element)
-                // element.innerHTML = ""
-
-                //originaler Text aus index.html abrufen...
-                // $.get(document.location.href, function(data) {
-                //     // console.log(data);
-                //     // let info = document.querySelector("#et-titel")
-                //     // console.log(info)
-
-                //     console.log("aktueller titel: ", $("#et-titel").text())
-                // })
-
-                // // $(document).ready(function() {
-                // //     console.log("ajax", $("et-titel").text());
-
-                // // });
-
-            }
-
+        
+        //Original HTML Content einfügen 
+        // console.log(html_original_list);
+        for (let i = 0; i < html_original_list.length; i++) {
+            let element = html_original_list[i];
+            let key = element[0];
+            let value = element[1];
+            // console.log(key, value);     
+            let html_element = document.querySelector(`#${key}`);
+            html_element.innerHTML = value;
         }
 
     } else {
@@ -123,7 +108,6 @@ let drawEtappe = function (nr) {
         overlay.etappen.addTo(map);
 
         //Metadateninfos auf Seite anzeigen, wenn verfügbar
-        keylist = []; //keylist clearen
         for (const key in ETAPPEN[nr]) { //man geht durch alle elemente durch 
             if (ETAPPEN[nr].hasOwnProperty(key)) { //hasOwnProperty - saubere variante für "existiert"
                 let val = ETAPPEN[nr][key];
@@ -133,7 +117,6 @@ let drawEtappe = function (nr) {
                 }
                 // console.log(`et-${key}`);
                 let element = document.querySelector(`#et-${key}`);
-                keylist.push(element); //speichert geänderte Metadaten
                 if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
                     element.innerHTML = val;
                 };
@@ -156,8 +139,6 @@ for (let i = 1; i < ETAPPEN.length; i++) { //beginnen bei 1 um Header zu übersp
     // console.log(etappe);
     pulldown.innerHTML += `<option value="${i}">${etappe.titel}</option>`
 }
-
-// console.log(pulldown);
 
 
 pulldown.onchange = function (evt) {
