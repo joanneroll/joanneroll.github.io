@@ -119,7 +119,16 @@ let drawEtappe = function (nr) {
                 // console.log(`et-${key}`);
                 let element = document.querySelector(`#et-${key}`);
                 if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
-                    element.innerHTML = val;
+                    if (key == "track") {
+                        console.log("track", element.outerHTML)
+                        console.log(track)
+                        let outer = `<a id="et-track" href="/adlerweg/gpx/AdlerwegEtappe${track}.gpx" download="">Download GPX-Daten</a>`
+                        element.outerHTML = outer;
+                    
+                    } else {
+                        element.innerHTML = val;
+                    }
+                    
                 };
 
             }
