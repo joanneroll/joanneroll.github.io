@@ -56,3 +56,11 @@ main p {
     padding-bottom: 0.2em;
 
 }
+
+#et-track {
+    font-size: 0.8em;
+    color: black;
+    float: right;
+    padding-right: 0.5em;
+    margin-top: 0.5em;
+}
