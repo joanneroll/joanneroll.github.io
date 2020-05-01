@@ -41,3 +41,18 @@ main h2 {
     height: 70vh;
     border: 1px solid gray;
 }
+
+main {
+    max-width: 95%;
+    margin: auto;
+}
+
+main p {
+    font-size: 0.9em;
+    text-align: justify;
+}
+
+#pulldown {
+    padding-bottom: 0.2em;
+
+}
