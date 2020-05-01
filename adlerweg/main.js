@@ -62,6 +62,7 @@ overlay.adlerblicke.addTo(map);
 
 let drawEtappe = function (nr) {
     overlay.etappen.clearLayers();
+    let vis;
 
     //Metadaten verwenden, um die richtige Etappe zu erwischen
     //nr ist ein key in ETAPPEN; track
@@ -71,6 +72,11 @@ let drawEtappe = function (nr) {
 
     if (nr == 0) { //nr = 0 --> Ausgangsseite
         map.fitBounds(overlay.adlerblicke.getBounds()); //Mapbounds auf Adlerblicke
+        // visibility = document.getElementsByClassName("optional-visible").style = "optional-hidden";
+        vis = document.getElementsByClassName("optional");
+        for (let i = 0; i < vis.length; i++) {
+            vis[i].style.display = "none";
+        }
 
         //Original HTML Content einfügen 
         // console.log(html_original_list);
@@ -84,6 +90,12 @@ let drawEtappe = function (nr) {
         }
 
     } else {
+        // visibility = document.getElementsByClassName("optional-hidden").className = "optional-visible";
+        vis = document.getElementsByClassName("optional");
+        for (let i = 0; i < vis.length; i++) {
+            vis[i].style.display = "inline";
+        }
+
         let gpx = new L.GPX(`gpx/AdlerwegEtappe${track}.gpx`, {
             async: true,
             marker_options: { //in dem plugin können die normalen icons settings mitverwendet werdn
@@ -124,11 +136,11 @@ let drawEtappe = function (nr) {
                         // console.log(track)
                         let outer = `<a id="et-track" href="/adlerweg/gpx/AdlerwegEtappe${track}.gpx" download="">Download Etappe (GPX-Datei)</a>`
                         element.outerHTML = outer;
-                    
+
                     } else {
                         element.innerHTML = val;
                     }
-                    
+
                 };
 
             }

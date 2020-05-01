@@ -64,3 +64,11 @@ main p {
     padding-right: 0.5em;
     margin-top: 0.5em;
 }
+
+.optional {
+    display: none;
+}
+
+.optional-visible {
+    display: inline;
+}
