@@ -128,6 +128,12 @@ let drawEtappe = function (nr) {
                 if (key == "einkehr") {
                     val = val.split("#").join(", ");
                 }
+
+                // Sonderzeichen im Titel ersetzen
+                if (key == "titel") {
+                    val = val.split("  ").join(" - ");
+                }
+
                 // console.log(`et-${key}`);
                 let element = document.querySelector(`#et-${key}`);
                 if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
@@ -159,7 +165,8 @@ pulldown.innerHTML += `<option value="0">Etappe auswählen</option>`
 for (let i = 1; i < ETAPPEN.length; i++) { //beginnen bei 1 um Header zu überspringen
     const etappe = ETAPPEN[i]; //Objekt der Etappe wird in Variable gespeichert
     // console.log(etappe);
-    pulldown.innerHTML += `<option value="${i}">${etappe.titel}</option>`
+    etappe_pd = etappe.titel.split("  ").join(" - ");
+    pulldown.innerHTML += `<option value="${i}">${etappe_pd}</option>`
 }
 
 
