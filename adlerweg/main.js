@@ -129,11 +129,6 @@ let drawEtappe = function (nr) {
                     val = val.split("#").join(", ");
                 }
 
-                // Sonderzeichen im Titel ersetzen
-                if (key == "titel") {
-                    val = val.split("  ").join(" - ");
-                }
-
                 // console.log(`et-${key}`);
                 let element = document.querySelector(`#et-${key}`);
                 if (element) { //wenn es die meta info gibt, entsprechend in html überschreiben
