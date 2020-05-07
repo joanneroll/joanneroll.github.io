@@ -203,3 +203,7 @@ let controlElevation = L.control.elevation({
     elevationDiv: "#profile",
     followMarker: false
 }).addTo(map);
+
+L.control.scale({
+    imperial: false //nur metrische Angabe 
+}).addTo(map);
