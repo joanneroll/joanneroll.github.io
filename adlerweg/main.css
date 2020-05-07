@@ -72,3 +72,7 @@ main p {
 .optional-visible {
     display: inline;
 }
+
+.adler-theme.elevation-polyline {
+    stroke-opacity: 0.0;
+}

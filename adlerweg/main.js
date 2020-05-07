@@ -198,7 +198,7 @@ overlay.einkehr.addTo(map);
 
 //elevation plugin
 let controlElevation = L.control.elevation({
-    theme: "steelblut-theme",
+    theme: "adler-theme",
     detached: true, //Profile in Div (außerhalb der Karte) dargestellt 
     elevationDiv: "#profile",
     followMarker: false
