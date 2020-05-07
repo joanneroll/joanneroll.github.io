@@ -11,7 +11,8 @@ let map = L.map("map", {
 let overlay = {
     adlerblicke: L.featureGroup(),
     etappen: L.featureGroup(),
-    einkehr: L.featureGroup()
+    einkehr: L.featureGroup(),
+    wikipedia: L.featureGroup()
 };
 
 L.control.layers({
@@ -29,7 +30,8 @@ L.control.layers({
 }, {
     "Adlerblicke": overlay.adlerblicke,
     "Adlerweg Etappen": overlay.etappen,
-    "Einkehrmöglichkeiten": overlay.einkehr
+    "Einkehrmöglichkeiten": overlay.einkehr,
+    "Wikipedia-Artikel": overlay.wikipedia
 }).addTo(map);
 
 
@@ -207,3 +209,35 @@ let controlElevation = L.control.elevation({
 L.control.scale({
     imperial: false //nur metrische Angabe 
 }).addTo(map);
+
+map.on("zoomend moveend", function (evt) { //map.on gilt für beide Events
+    let ext = {
+        north: map.getBounds().getNorth(),
+        south: map.getBounds().getSouth(),
+        east: map.getBounds().getEast(),
+        west: map.getBounds().getWest(),
+    };
+
+    let url = `https://secure.geonames.org/wikipediaBoundingBoxJSON?north=${ext.north}&south=${ext.south}&east=${ext.east}&west=${ext.west}&username=joanneroll&lang=de&maxRows=30`
+    // console.log(url);
+
+    let wiki = L.Util.jsonp(url).then(function (data) { //https://github.com/calvinmetcalf/leaflet-ajax
+        console.log(data.geonames); //hier sind die Artikel drinnen
+
+        for (let article of data.geonames) {
+            // console.log(article);
+            let mrk = L.marker([article.lat, article.lng]).addTo(overlay.wikipedia);
+            mrk.bindPopup(`
+            <small>${article.feature}</small>
+            <h3>${article.title} (${article.elevation}m)</h3>
+            <p>${article.summary}</p>
+            <a target="wikipedia" href="https://${article.wikipediaUrl}">Wikipedia Artikel</a>`)
+        }
+
+
+    })
+
+});
+//https://secure.geonames.org/wikipediaBoundingBoxJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&username=joanneroll&lang=de&maxRows=30
+
+overlay.wikipedia.addTo(map);
