@@ -76,3 +76,7 @@ main p {
 .adler-theme.elevation-polyline {
     stroke-opacity: 0.0;
 }
+
+#profile {
+    margin-top: 0.5em;
+}
