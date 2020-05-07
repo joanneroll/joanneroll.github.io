@@ -78,6 +78,7 @@ let drawEtappe = function (nr) {
         map.fitBounds(overlay.adlerblicke.getBounds()); //Mapbounds auf Adlerblicke
         // visibility = document.getElementsByClassName("optional-visible").style = "optional-hidden";
         vis = document.getElementsByClassName("optional");
+        document.getElementById("profile").style.visibility = "hidden";
         for (let i = 0; i < vis.length; i++) {
             vis[i].style.display = "none";
         }
@@ -95,6 +96,7 @@ let drawEtappe = function (nr) {
 
     } else {
         // visibility = document.getElementsByClassName("optional-hidden").className = "optional-visible";
+        document.getElementById("profile").style.visibility = "visible";
         vis = document.getElementsByClassName("optional");
         for (let i = 0; i < vis.length; i++) {
             vis[i].style.display = "inline";
