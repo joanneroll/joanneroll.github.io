@@ -212,6 +212,8 @@ L.control.scale({
     imperial: false //nur metrische Angabe 
 }).addTo(map);
 
+let drawnMarkers = {}; //alle gezeichneten Marker setzen 
+
 map.on("zoomend moveend", function (evt) { //map.on gilt für beide Events
     let ext = {
         north: map.getBounds().getNorth(),
@@ -228,6 +230,15 @@ map.on("zoomend moveend", function (evt) { //map.on gilt für beide Events
 
         for (let article of data.geonames) {
             // console.log(article);
+            for (let article of data.geonames) {
+                let ll = `${article.lat}${article.lng}`;
+                if (drawnMarkers[ll]) { //ist der Marker schon in drawnMarker
+                    continue; //dann überspringen
+                } else {
+                    drawnMarkers[ll] = true; //iein Wert zu weisen, also in die Liste setzen und Marker anschließend zeichnen
+                };
+            }
+
             //Icons tunen
             let png = "";
             // console.log(article.feature);
