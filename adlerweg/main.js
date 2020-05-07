@@ -117,6 +117,9 @@ let drawEtappe = function (nr) {
         gpx.on("loaded", function (evt) {
             // console.log("Event", evt);
             map.fitBounds(evt.target.getBounds());
+
+            controlElevation.clear();
+            controlElevation.load(`gpx/AdlerwegEtappe${track}.gpx`);
         }).addTo(overlay.etappen);
 
         overlay.etappen.addTo(map);
@@ -129,6 +132,7 @@ let drawEtappe = function (nr) {
                 // value von "einkehr" überschreiben: # mit , ersetzen
                 if (key == "einkehr") {
                     val = val.split("#").join(", ");
+                    // val = val.replace(/#/g, ", ")
                 }
 
                 // console.log(`et-${key}`);
@@ -191,3 +195,11 @@ let drawEinkehr = function () {
 
 drawEinkehr();
 overlay.einkehr.addTo(map);
+
+//elevation plugin
+let controlElevation = L.control.elevation({
+    theme: "steelblut-theme",
+    detached: true, //Profile in Div (außerhalb der Karte) dargestellt 
+    elevationDiv: "#profile",
+    followMarker: false
+}).addTo(map);
