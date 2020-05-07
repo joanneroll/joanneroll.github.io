@@ -224,11 +224,44 @@ map.on("zoomend moveend", function (evt) { //map.on gilt für beide Events
     // console.log(url);
 
     let wiki = L.Util.jsonp(url).then(function (data) { //https://github.com/calvinmetcalf/leaflet-ajax
-        console.log(data.geonames); //hier sind die Artikel drinnen
+        // console.log(data.geonames); //hier sind die Artikel drinnen
 
         for (let article of data.geonames) {
             // console.log(article);
-            let mrk = L.marker([article.lat, article.lng]).addTo(overlay.wikipedia);
+            //Icons tunen
+            let png = "";
+            // console.log(article.feature);
+            switch (article.feature) { //arbeitete nach und nach Fälle ab - Alternative zu else if
+                case "city":
+                    png = "city.png";
+                    break;
+                case "landmark":
+                    png = "landmark.png";
+                    break;
+                case "waterbody":
+                    png = "lake.png";
+                    break;
+                case "river":
+                    png = "river.png";
+                    break;
+                case "mountain":
+                    png = "mountain.png";
+                    break;
+                default: //wenn keines der oberen zutrifft
+                    png = "information.png";
+            }
+            // console.log(png);
+
+
+            let mrk = L.marker([article.lat, article.lng], {
+                icon: L.icon({
+                    iconSize: [32, 37],
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -37],
+                    iconUrl: `icons/${png}`
+                })
+
+            }).addTo(overlay.wikipedia);
             
             let img = "";
             if (article.thumbnailImg) {
